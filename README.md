@@ -19,7 +19,7 @@ Después de una visita técnica, el técnico tiene en la mano una lista de equip
 | Exportación PDF y Excel | Oferta en PDF desde el formulario y desde cada fila (jsPDF y jspdf-autotable). Reporte del mes en PDF y libro Excel con hojas Ofertas, Ítems y KPIs (ExcelJS). |
 | Tablas automáticas | La tabla de ofertas se construye desde el estado: filtros por estado y tipo, más recientes primero. |
 | Conclusiones automáticas | Reglas sobre tasa de cierre, peso de reparaciones y carga de mano de obra. Siempre muestra al menos un mensaje. |
-| Diseño responsive estilo industrial | Tailwind CSS v4 con tokens de color y tipografía inspirados en una botonera de cabina de ascensor. Funciona desde 375 px hasta escritorio. Ver [DESIGN.md](DESIGN.md). |
+| Diseño Enterprise SaaS | Tailwind CSS v4 con tokens semánticos, modo claro y oscuro y tipografía Inter. Funciona desde 375 px hasta escritorio. Ver [DESIGN.md](DESIGN.md). |
 
 ## Cómo se calcula
 
@@ -61,7 +61,7 @@ Las ofertas copian la tarifa, el margen y el IVA al crearse, así que un cambio 
 | Excel | ExcelJS 4 |
 | Pruebas | Vitest (lógica pura) |
 | Iconos | lucide-react |
-| Tipografía | Barlow y Barlow Semi Condensed vía @fontsource |
+| Tipografía | Inter vía @fontsource |
 
 Sin backend, sin base de datos y sin login. El estado vive en React y las variables y ofertas se guardan en `localStorage`.
 
@@ -120,7 +120,7 @@ El proyecto se construyó con **Claude Code**, distribuyendo las tareas entre mo
 - **Sonnet**: lógica de negocio y pruebas, interfaz del dashboard, exportes a PDF y Excel.
 - **Haiku**: andamiaje del proyecto y documentación.
 
-La dirección visual se definió con la skill de diseño **Impeccable**, con una dirección industrial de "botonera de cabina". El conocimiento del dominio (cómo se levanta una oferta de mantenimiento o instalación de ascensores), los requisitos y la aprobación de la spec y del diseño son responsabilidad humana.
+La dirección visual se definió con la skill de diseño **Impeccable**, primero con una dirección industrial de "botonera de cabina" y luego con un rediseño ejecutivo tipo Enterprise SaaS. El conocimiento del dominio (cómo se levanta una oferta de mantenimiento o instalación de ascensores), los requisitos y la aprobación de la spec y del diseño son responsabilidad humana.
 
 ## Capturas
 

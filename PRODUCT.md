@@ -36,6 +36,10 @@ See `specs/001-generador-ofertas/spec.md`. Spanish UI, COP currency (`$ 1.234.56
 
 Fictitious brand "Elevia Ofertas". Must not use the name, logo or colors of any real elevator company. Voice: professional and direct, neutral Spanish, tuteo, trade terms (oferta, repuesto, mano de obra).
 
+Visual identity (user-pinned, 2026-11 redesign): executive Enterprise SaaS look inspired by Power BI, Salesforce Lightning, SAP Analytics Cloud and Schneider EcoStruxure (as references only; never their logos, names or exact styling). Palette #F8FAFC background, white cards, primary #0057B8, success #10B981, warning #F59E0B, critical #DC2626, text #111827, secondary text #6B7280; Inter self-hosted; 12 px radius; light and dark mode. The Elevia logo is an original drawn mark (cabin with up/down arrows).
+
+Data honesty: every number comes from the quotes in state (simulated or entered by hand) and is labeled as simulated. "Previous period" is the previous simulated month saved on reset, or the previous window of equal length. The forecast is a declared linear projection, never presented as AI. The user profile is a demo user; there is no login.
+
 ## Evidence on Hand
 
 None. Catalog items, prices, clients and simulated data are fictitious and must be presented as simulated, never as real company data.

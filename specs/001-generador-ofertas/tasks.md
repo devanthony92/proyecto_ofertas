@@ -43,3 +43,16 @@ Marcar `[x]` al terminar. Una tarea = un commit pequeño.
 - [x] T28 KPI C1 promedio (reemplaza ticket promedio) y C1 editable por oferta
 - [x] T29 Formulario renombrado a "Nuevo requerimiento"
 - [x] T30 Botones +1 día y +7 días para avance manual
+
+## Fase 6 — Rediseño Enterprise SaaS
+- [x] T31 Tokens semánticos claro/oscuro, Inter autohospedada, radios de 12 px (`index.css`, `index.html`)
+- [x] T32 `etapaOferta` (Pendiente / En negociación / Ganada / Perdida) + tests
+- [x] T33 `analitica.js` (período y período anterior, filtros, sparklines, funnel, mapa de calor, rankings, pronóstico, alertas) + tests
+- [x] T34 Mes anterior guardado al reiniciar (`elevia.mesAnterior`)
+- [x] T35 Encabezado ejecutivo: búsqueda universal, fecha/hora, notificaciones, tema, configuración, perfil demo
+- [x] T36 Barra de mando: período, filtros globales, DÍA n/30, simulación, Nuevo requerimiento
+- [x] T37 Tarjetas KPI con icono, sparkline, variación, desempeño y tooltip
+- [x] T38 Gráfica acumulada: banda de meta, proyección, mes anterior, series ocultables, zoom
+- [x] T39 Paneles: funnel, mapa de calor, ranking de técnicos, top clientes, pronóstico, conclusiones y alertas
+- [x] T40 Tabla con etapa, técnico y búsqueda; modales y PDF con la nueva paleta
+- [x] T41 `DESIGN.md`, `PRODUCT.md`, README y verificación a 1440 / 1024 / 375 px en claro y oscuro

@@ -58,6 +58,8 @@ Como jefe comercial quiero simular el flujo de ofertas de un mes para ver cómo 
 - [ ] Botones **+1 día** y **+7 días**: avanzan la simulación a mano (con la simulación detenida), para explicar el sistema creando requerimientos entre días.
 - [ ] Cada día se generan ofertas aleatorias (cantidad según "visitas por día"), con ítems del catálogo y tipo según "% instalaciones".
 - [ ] Las ofertas abiertas se resuelven como **Aceptada** o **Rechazada** según "probabilidad de cierre".
+- [ ] Mientras no se decide, la oferta tiene una **etapa** comercial por regla: **Pendiente** el día en que se envía y **En negociación** desde el día siguiente. Aceptada se muestra como **Ganada** y Rechazada como **Perdida**.
+- [ ] Al **Reinicio**, las ofertas simuladas del mes que termina se guardan como **mes anterior** (solo el último) para comparar.
 - [ ] La simulación se detiene sola al llegar al día 30.
 - [ ] Las ofertas creadas a mano también cuentan en los indicadores.
 - [ ] Se ve claramente el día actual y si la simulación está corriendo o pausada.
@@ -100,19 +102,24 @@ Como jefe comercial quiero cambiar los supuestos del negocio y ver el efecto al 
 **Criterios de aceptación**
 - [ ] Los KPIs cambian en cada día simulado y al guardar una oferta manual.
 - [ ] Con cero ofertas se muestra `0` o `—`, nunca `NaN`.
+- [ ] Cada KPI es una tarjeta con icono, sparkline (valor acumulado día a día del período), variación frente al período anterior, indicador de desempeño (cuando hay una meta o regla) y tooltip con la definición.
+- [ ] **Período anterior**: con el período "Mes en curso" se compara contra el mes anterior simulado al mismo día; con "Últimos 7 / 14 días" contra los 7 / 14 días previos del mismo mes (solo si caben completos). Si no hay base, se dice "Sin período anterior".
 
 ### HU-6 Ver gráficas dinámicas
 
-- [ ] Línea: valor ofertado vs valor ganado acumulado por día.
-- [ ] La línea muestra la meta mensual (meta mínima de Configuración) como línea roja punteada.
+- [ ] Línea suavizada: valor ofertado vs valor ganado acumulado por día, en el eje de los 30 días del mes.
+- [ ] La meta mensual se muestra como **banda** entre meta mínima y máxima, con la meta mínima como línea roja punteada.
+- [ ] Serie de **proyección lineal** del ganado hasta el día 30 (desde el día 5) y serie del **mes anterior** simulado si existe.
+- [ ] Las series se pueden ocultar; se puede acercar arrastrando (Ctrl + rueda, pellizco, Shift + arrastre para desplazar) y restablecer.
+- [ ] Tooltip con día, valores, conversión y brecha a la meta mínima.
 - [ ] Dona: valor por tipo de trabajo (Instalación vs Reparación).
 - [ ] Barras: top 5 ítems más ofertados.
 - [ ] Las gráficas se actualizan con la simulación.
 
 ### HU-7 Ver la tabla de ofertas
 
-- [ ] Columnas: N°, día, cliente, tipo, total, estado, acción (PDF).
-- [ ] Filtro por estado y por tipo.
+- [ ] Columnas: N°, día, cliente, técnico, tipo, total, etapa, acción (PDF).
+- [ ] Filtro por etapa y búsqueda por texto; tipo, técnico y período vienen de los filtros globales.
 - [ ] Más recientes arriba.
 
 ### HU-8 Exportar reportes
@@ -136,9 +143,26 @@ Reglas (cada una muestra un mensaje corto):
 
 ### HU-10 Diseño
 
-- [ ] Estilo industrial moderno, limpio, legible.
-- [ ] Funciona en móvil (375 px), tablet y escritorio.
+- [ ] Estilo Enterprise SaaS ejecutivo (ver `DESIGN.md`): Inter, fondo #F8FAFC, tarjetas blancas, primario #0057B8, radios de 12 px.
+- [ ] Modo claro y oscuro, con el tema guardado.
+- [ ] Funciona en móvil (375 px), tablet (1024 px) y escritorio (1440 px).
 - [ ] Contraste suficiente para leer (WCAG AA).
+
+### HU-11 Encabezado ejecutivo y navegación
+
+- [ ] Encabezado con logo ficticio, búsqueda universal (Ctrl K) sobre ofertas, clientes y técnicos, fecha y hora local, notificaciones (alertas automáticas), configuración, cambio de tema y perfil de demostración (sin login).
+- [ ] Barra de mando con selector de período (mes en curso, últimos 14 o 7 días), filtros globales (tipo, técnico), progreso **DÍA n / 30**, controles de simulación y **Nuevo requerimiento**.
+- [ ] Los filtros globales aplican a KPIs, gráficas, paneles y tabla. Conclusiones, notificaciones y exportes usan siempre el mes completo.
+
+### HU-12 Paneles de análisis
+
+Todo sale de las ofertas del estado (simuladas o manuales); nada se inventa.
+- [ ] **Funnel comercial**: creadas, en negociación, pendientes, ganadas, perdidas (etapas de HU-3).
+- [ ] **Actividad comercial**: mapa de calor de ofertas creadas por técnico y día.
+- [ ] **Ranking de técnicos** por valor ganado, con número de ofertas y tasa de cierre.
+- [ ] **Top clientes por facturación** (valor ganado).
+- [ ] **Pronóstico de cierre**: proyección lineal (ganado ÷ días × 30) frente a la banda de meta, más valor abierto y su valor esperado (× tasa de cierre). Se rotula como proyección estadística, no IA; se muestra desde el día 5.
+- [ ] **Conclusiones y alertas**: reglas de HU-9 más tendencias: ritmo de ofertas de los últimos 7 días frente a los 7 previos (±25 %), concentración de un cliente (> 35 % del ganado) y valor ganado frente al mes anterior al mismo día.
 
 ---
 

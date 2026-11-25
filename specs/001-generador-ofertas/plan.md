@@ -9,7 +9,9 @@ Implementa `spec.md`. Regla: si algo no está en la spec, no se construye.
 | Build / dev server | Vite |
 | UI | React (JavaScript, sin TypeScript) |
 | Estilos | Tailwind CSS v4 |
-| Gráficas | Chart.js + react-chartjs-2 |
+| Gráficas | Chart.js + react-chartjs-2 + chartjs-plugin-zoom (zoom y desplazamiento del eje x) |
+| Tipografía | Inter vía @fontsource (autohospedada) |
+| Iconos | lucide-react |
 | PDF | jsPDF + jspdf-autotable |
 | Excel | ExcelJS |
 | Tests | Vitest (solo lógica pura) |
@@ -27,20 +29,30 @@ src/
   lib/
     calculos.js              # totalesOferta, kpis, conclusiones, formatoCOP
     calculos.test.js
-    simulacion.js            # simularDia(estado, variables, rng)
+    analitica.js             # período, filtros, sparklines, funnel, mapa de calor, rankings, pronóstico, alertas
+    analitica.test.js
+    formato.js               # formatoCompacto ($ 245,3 M), formatoPct
+    simulacion.js            # simularDia(estado, variables, rng), etapaOferta(oferta, dia)
     exportPdf.js             # pdfOferta(oferta), pdfReporte(ofertas, kpis, conclusiones)
     exportExcel.js           # excelReporte(ofertas, kpis)
   hooks/
     useSimulacion.js         # setInterval, iniciar/pausar/reiniciar
   components/
-    Header.jsx
-    Controles.jsx            # Iniciar / Pausa / Reinicio + día actual
-    PanelVariables.jsx
-    Kpis.jsx
-    Graficas.jsx
+    Header.jsx               # logo, búsqueda universal, fecha/hora, notificaciones, tema, configuración, perfil
+    Controles.jsx            # barra de mando: período, filtros globales, DÍA n/30, simulación, Nuevo requerimiento
+    Card.jsx                 # contenedor de panel + estado vacío
+    chartTema.js             # paleta de gráficas por tema y tooltip base
+    Kpis.jsx                 # tarjetas con sparkline, variación, desempeño y tooltip
+    GraficoAcumulado.jsx     # ofertado vs ganado, banda de meta, proyección, mes anterior, zoom
+    Pronostico.jsx
+    Embudo.jsx
+    MapaCalor.jsx
+    Rankings.jsx             # técnicos y clientes
+    Graficas.jsx             # dona por tipo + top 5 ítems
     Conclusiones.jsx
+    PanelVariables.jsx       # modal Configuración
     TablaOfertas.jsx
-    FormOferta.jsx           # panel lateral / modal
+    FormOferta.jsx           # modal Nuevo requerimiento
 ```
 
 ## Modelo de datos
@@ -101,15 +113,28 @@ horasVendidas  = Σ horas (Aceptada)
 
 `rng` inyectable para tests deterministas.
 
+`etapaOferta(oferta, dia)` es una regla derivada, no un estado guardado: Aceptada → Ganada, Rechazada → Perdida, Enviada → Pendiente el día de envío y En negociación desde el día siguiente. No cambia `simularDia` ni los datos guardados.
+
 `useSimulacion` maneja `dia`, `corriendo` y un `setInterval` con `velocidad × 1000` ms. Para al llegar a 30.
 
 ## Persistencia
 
-`localStorage` guarda `variables` y `ofertas`. Reinicio borra solo las ofertas simuladas.
+`localStorage` guarda `variables`, `ofertas`, `dia`, `tema` y `mesAnterior`. Reinicio guarda las ofertas simuladas en `mesAnterior` (`{ dia, ofertas }`, solo el último mes) y luego las borra del mes actual.
+
+## Analítica (`analitica.js`)
+
+```
+rangoPeriodo('mes', d)  → días 0..d; sin ventana anterior interna (se compara con mesAnterior hasta el día d)
+rangoPeriodo('7', d)    → días d-6..d; anterior = d-13..d-7, solo si cabe completa
+serieKpi(ofertas, a, b) → kpis acumulados por día (sparklines)
+embudo, mapaCalor, rankingTecnicos, topClientes (por valor ganado)
+pronostico              → proyectado = ganado / dia × 30; esperadoAbierto = abierto × tasaCierre; fiable desde el día 5
+alertas                 → conclusiones() + ritmo 7 vs 7 días, concentración de cliente, vs mes anterior
+```
 
 ## Diseño
 
-`DESIGN.md` generado con la skill `impeccable` antes de los componentes. Tokens en `index.css` (`@theme`).
+`DESIGN.md` (dirección Enterprise SaaS, rediseño con la skill `impeccable`). Tokens semánticos en `index.css`: `@theme` apunta a variables CSS que cambian con la clase `.dark`. Los colores de Chart.js salen de `chartTema.js`.
 
 ## Verificación
 
