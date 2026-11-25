@@ -1,0 +1,138 @@
+@import "@fontsource/barlow/400.css";
+@import "@fontsource/barlow/500.css";
+@import "@fontsource/barlow/600.css";
+@import "@fontsource/barlow-semi-condensed/500.css";
+@import "@fontsource/barlow-semi-condensed/600.css";
+@import "@fontsource/barlow-semi-condensed/700.css";
+@import "tailwindcss";
+
+/*
+  Mundo: botonera de cabina y placa de capacidad.
+  Acero cepillado frío, texto grabado negro, ámbar solo para "activo / encendido".
+*/
+@theme {
+  --font-sans: "Barlow", system-ui, sans-serif;
+  --font-display: "Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
+
+  /* Acero */
+  --color-acero-50: #f4f6f7;
+  --color-acero-100: #e9edf0;
+  --color-acero-200: #d6dce1;
+  --color-acero-300: #bcc5cc;
+  --color-acero-400: #8f9aa4;
+  --color-acero-500: #66727d;
+  --color-acero-600: #4a545e;
+  --color-acero-700: #353d45;
+  --color-acero-800: #252b31;
+  --color-acero-900: #15191d;
+
+  /* Ámbar: anillo iluminado. Solo para estado activo / en curso. */
+  --color-ambar-300: #ffd27a;
+  --color-ambar-400: #f6b532;
+  --color-ambar-500: #e39b0b;
+  --color-ambar-700: #8a5a00;
+
+  /* Estados de oferta */
+  --color-enviada: #2f6496;
+  --color-aceptada: #1d7448;
+  --color-rechazada: #b0291f;
+
+  /* Series de datos */
+  --color-serie-ofertado: #2f6496;
+  --color-serie-ganado: #1d7448;
+  --color-serie-instalacion: #252b31;
+  --color-serie-reparacion: #8f9aa4;
+
+  --radius-placa: 6px;
+  --shadow-placa: 0 1px 2px rgb(21 25 29 / 0.08), 0 2px 6px rgb(21 25 29 / 0.05);
+  --shadow-pulsador: inset 0 1px 0 rgb(255 255 255 / 0.6), 0 1px 2px rgb(21 25 29 / 0.25);
+}
+
+@layer base {
+  html {
+    background: var(--color-acero-100);
+    color: var(--color-acero-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-ambar-300);
+    color: var(--color-acero-900);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ambar-500);
+    outline-offset: 2px;
+  }
+  table,
+  .cifra {
+    font-variant-numeric: tabular-nums;
+  }
+  * {
+    scrollbar-color: var(--color-acero-400) transparent;
+  }
+}
+
+@layer components {
+  .placa {
+    background: var(--color-acero-50);
+    border: 1px solid var(--color-acero-300);
+    border-radius: var(--radius-placa);
+    box-shadow: var(--shadow-placa);
+  }
+  .campo {
+    width: 100%;
+    background: white;
+    border: 1px solid var(--color-acero-400);
+    border-radius: 4px;
+    padding: 0.4rem 0.6rem;
+    color: var(--color-acero-900);
+    min-height: 2.25rem;
+  }
+  .campo[aria-invalid="true"] { border-color: var(--color-rechazada); }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 2.25rem;
+    padding: 0 0.85rem;
+    border-radius: 4px;
+    border: 1px solid var(--color-acero-400);
+    background: white;
+    color: var(--color-acero-900);
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .btn:hover:not(:disabled) { background: var(--color-acero-100); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-primario { background: var(--color-acero-900); border-color: var(--color-acero-900); color: white; }
+  .btn-primario:hover:not(:disabled) { background: var(--color-acero-700); }
+  .btn-sm { min-height: 2rem; padding: 0 0.5rem; }
+  .pulsador {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    background: transparent;
+    border: 0;
+    color: var(--color-acero-200);
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+  .pulsador > span:first-child {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 9999px;
+    background: linear-gradient(var(--color-acero-100), var(--color-acero-200));
+    color: var(--color-acero-900);
+    box-shadow: var(--shadow-pulsador);
+    transition: box-shadow 0.15s, transform 0.08s;
+  }
+  .pulsador:active:not(:disabled) > span:first-child { transform: translateY(1px); }
+  .pulsador:disabled { opacity: 0.45; cursor: not-allowed; }
+  .pulsador[aria-pressed="true"] > span:first-child {
+    box-shadow: var(--shadow-pulsador), 0 0 0 2px var(--color-ambar-400), 0 2px 10px rgb(246 181 50 / 0.45);
+  }
+}

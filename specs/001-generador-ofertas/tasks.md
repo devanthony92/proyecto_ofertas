@@ -1,0 +1,41 @@
+# Tareas 001 — Generador de Ofertas
+
+Marcar `[x]` al terminar. Una tarea = un commit pequeño.
+
+## Fase 0 — Base
+- [x] T01 `git init`, remote, `.gitignore`
+- [x] T02 `spec.md`, `plan.md`, `tasks.md`
+- [x] T03 `DESIGN.md` con skill `impeccable` (estilo industrial moderno)
+- [x] T04 Scaffold Vite + React + Tailwind v4; instalar chart.js, react-chartjs-2, jspdf, jspdf-autotable, exceljs, vitest
+
+## Fase 1 — Lógica (con tests)
+- [x] T05 `data/catalogo.json` (~20 ítems: equipos, materiales, repuestos)
+- [x] T06 `calculos.js`: `totalesOferta`, `formatoCOP` + tests
+- [x] T07 `calculos.js`: `kpis`, `conclusiones` + tests (incluye caso 0 ofertas)
+- [x] T08 `simulacion.js`: `simularDia` + tests con rng fijo
+- [x] T09 `useSimulacion.js`: iniciar / pausar / reiniciar, para en día 30
+
+## Fase 2 — Dashboard
+- [x] T10 `App.jsx` layout + estado + localStorage
+- [x] T11 `Header` + `Controles` (HU-3)
+- [x] T12 `PanelVariables` + restaurar defectos + validación (HU-4)
+- [x] T13 `Kpis` (HU-5)
+- [x] T14 `Graficas` (HU-6)
+- [x] T15 `TablaOfertas` con filtros (HU-7)
+- [x] T16 `Conclusiones` (HU-9)
+
+## Fase 3 — Ofertas y exportes
+- [x] T17 `FormOferta` con catálogo, ítems libres, totales en vivo, validación (HU-1)
+- [x] T18 `pdfOferta` (HU-2)
+- [x] T19 `excelReporte` + `pdfReporte` (HU-8)
+
+## Fase 4 — Cierre
+- [x] T20 Pulido visual y responsive con `impeccable` (HU-10)
+- [x] T21 README de portafolio (qué es, capturas, cómo correr, uso de IA)
+- [x] T22 Verificación final: `npm test`, `npm run build`, prueba manual (oferta manual → PDF; iniciar/pausa/reinicio; Excel + PDF reporte; vista 375 px)
+
+## Fase 5 — Ajustes tras revisión
+- [x] T23 Calibrar defectos a facturación de sede ($ 200–300 M/mes)
+- [x] T24 Variables en modal **Configuración** (fuera del dashboard)
+- [x] T25 Conclusión de meta de facturación (reemplaza la de reparaciones)
+- [x] T26 Formulario de nueva oferta en modal centrado (antes panel lateral)

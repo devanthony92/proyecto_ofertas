@@ -1,0 +1,22 @@
+[
+  { "id": "equ-001", "categoria": "Equipo", "descripcion": "Equipo completo de ascensor 8 paradas", "unidad": "und", "precio": 180000000 },
+  { "id": "equ-002", "categoria": "Equipo", "descripcion": "Máquina tractora gearless", "unidad": "und", "precio": 45000000 },
+  { "id": "equ-003", "categoria": "Equipo", "descripcion": "Equipo completo de ascensor 4 paradas", "unidad": "und", "precio": 120000000 },
+  { "id": "mat-001", "categoria": "Material", "descripcion": "Guías de cabina T89 (por metro)", "unidad": "m", "precio": 185000 },
+  { "id": "mat-002", "categoria": "Material", "descripcion": "Cable de tracción 10 mm (por metro)", "unidad": "m", "precio": 48000 },
+  { "id": "mat-003", "categoria": "Material", "descripcion": "Cable viajero 24 hilos (por metro)", "unidad": "m", "precio": 36000 },
+  { "id": "mat-004", "categoria": "Material", "descripcion": "Puerta de piso automática", "unidad": "und", "precio": 3800000 },
+  { "id": "mat-005", "categoria": "Material", "descripcion": "Contrapeso con bloques", "unidad": "und", "precio": 6200000 },
+  { "id": "mat-006", "categoria": "Material", "descripcion": "Amortiguador hidráulico de foso", "unidad": "und", "precio": 2400000 },
+  { "id": "rep-001", "categoria": "Repuesto", "descripcion": "Botonera de cabina", "unidad": "und", "precio": 1850000 },
+  { "id": "rep-002", "categoria": "Repuesto", "descripcion": "Contactos de puerta", "unidad": "juego", "precio": 320000 },
+  { "id": "rep-003", "categoria": "Repuesto", "descripcion": "Rodamientos de máquina", "unidad": "juego", "precio": 980000 },
+  { "id": "rep-004", "categoria": "Repuesto", "descripcion": "Variador de frecuencia", "unidad": "und", "precio": 7500000 },
+  { "id": "rep-005", "categoria": "Repuesto", "descripcion": "Operador de puerta", "unidad": "und", "precio": 4200000 },
+  { "id": "rep-006", "categoria": "Repuesto", "descripcion": "Final de carrera", "unidad": "und", "precio": 280000 },
+  { "id": "rep-007", "categoria": "Repuesto", "descripcion": "Patines de guía de cabina", "unidad": "juego", "precio": 450000 },
+  { "id": "rep-008", "categoria": "Repuesto", "descripcion": "Tarjeta de control principal", "unidad": "und", "precio": 5600000 },
+  { "id": "rep-009", "categoria": "Repuesto", "descripcion": "Fotocelda de puerta", "unidad": "und", "precio": 690000 },
+  { "id": "rep-010", "categoria": "Repuesto", "descripcion": "Freno de máquina", "unidad": "und", "precio": 2900000 },
+  { "id": "rep-011", "categoria": "Repuesto", "descripcion": "Display indicador de piso", "unidad": "und", "precio": 540000 }
+]
