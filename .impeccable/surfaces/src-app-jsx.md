@@ -1,24 +1,24 @@
 ---
-version: 1
+version: 2
 slug: "src-app-jsx"
 primary_target: "src/App.jsx"
-related_targets: []
+related_targets: ["src/components", "src/index.css"]
 ---
 
 ## Scope
 
-Single-screen dashboard (src/App.jsx). Mode: Operate. Audience: técnico, jefe comercial, evaluadores en proyector. Task: armar oferta → PDF; correr simulación del mes; leer KPIs, gráficas, conclusiones; exportar.
+Single-screen executive dashboard (src/App.jsx). Mode: Operate. Audience: jefe comercial / directivos, técnico, evaluadores en proyector. Task: leer el mes comercial simulado de un vistazo, filtrar, crear un requerimiento → PDF, correr la simulación, exportar.
 
 ## Direction contract
 
-THESIS: El dashboard es la botonera de cabina de un ascensor: acero cepillado, cifras grabadas, pulsadores que se encienden. Rechaza el SaaS gris con tarjetas idénticas y un acento azul.
+THESIS: Panel ejecutivo Enterprise SaaS (referencias del usuario: Power BI, Salesforce Lightning, SAP Analytics Cloud, Schneider EcoStruxure). Minimalista, espacio en blanco, premium. Pin del usuario: paleta #F8FAFC / blanco / #0057B8 / #10B981 / #F59E0B / #DC2626 / #111827 / #6B7280, Inter, radio 12 px, claro y oscuro.
 
-OWN-WORLD: Fondo acero-100, paneles acero-50 con borde 1px acero-300 y radio 6px (placas atornilladas). Banda superior acero-800 como el panel de cabina. Texto grabado acero-900; display Barlow Semi Condensed mayúsculas con tracking leve; cifras tabulares. Ámbar SOLO para "activo/encendido" (pulsador corriendo, fila nueva). Estados: enviada azul acero, aceptada verde, rechazada rojo.
+OWN-WORLD: Un solo azul de marca; verde/ámbar/rojo solo para estado. Tarjetas blancas con borde 1 px y sombra sutil. Cifras tabulares grandes, etiquetas grises. Encabezado en dos filas: identidad + utilidades; barra de mando con período, filtros, DÍA n/30 y simulación.
 
-STORY: El visitante ve el mes avanzar día a día, los totales suben, las conclusiones cambian; puede crear su propia oferta y descargarla.
+STORY: El directivo ve 7 KPIs con tendencia y variación, la curva acumulada contra la banda de meta y el pronóstico; luego funnel, actividad por técnico, rankings, alertas y la tabla.
 
-FIRST VIEWPORT: Banda superior: nombre Elevia Ofertas, indicador de piso "DÍA 12 / 30" grande, tres pulsadores redondos (Iniciar, Pausa, Reinicio) y botón primario "Nueva oferta". Debajo: fila de KPIs como placa de capacidad (valores grandes grabados, etiqueta pequeña, sin íconos decorativos). Luego gráfica línea ancha + dona, conclusiones a la derecha. Variables en panel lateral plegable. Tabla al final.
+FIRST VIEWPORT: Encabezado, barra de mando, título "Panel comercial", fila de 7 KPIs, inicio de la gráfica acumulada y del pronóstico.
 
-FORM: Botonera de cabina (candidato 3 de 7). Signature move: pulsadores con anillo ámbar iluminado cuando la simulación corre; indicador de día estilo display de piso. Raises: de "terminal yellow wayfinding" — un color reservado para un solo trabajo (ámbar = activo); de "split-flap" — cifras en celdas fijas tabulares que cambian sin mover el layout. seed:8a55bd7090ba82c5
+HONESTY: Todo sale de ofertas simuladas o manuales; rotulado "simulado". Período anterior = mes anterior guardado al reiniciar, o ventana previa de igual largo. Pronóstico = proyección lineal declarada, no IA.
 
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+FINISH: verificado en 1440 / 1024 / 375 px, claro y oscuro; DESIGN.md actualizado.

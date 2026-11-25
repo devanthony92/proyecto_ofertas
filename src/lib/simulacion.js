@@ -45,13 +45,15 @@ export function simularDia(ofertas, dia, variables, rng = Math.random) {
   fecha.setDate(fecha.getDate() + dia)
 
   for (let n = 0; n < cantidad; n++, id++) {
-    const instalacion = rng() < variables.pctInstalacion / 100
-    const elegidos = instalacion
-      ? [pick(porCategoria('Equipo')), ...pickN(porCategoria('Material'), randInt(3, 5))]
+    // Preventivo: visita programada (inspección, ajuste, lubricación) con 0–3 consumibles.
+    // Correctivo: falla atendida con 1–3 repuestos distintos.
+    const preventivo = rng() < variables.pctPreventivo / 100
+    const elegidos = preventivo
+      ? pickN(porCategoria('Consumible'), randInt(0, 3))
       : pickN(porCategoria('Repuesto'), randInt(1, 3))
     const items = elegidos.map((c) => ({
       descripcion: c.descripcion,
-      cantidad: c.categoria === 'Equipo' ? 1 : randInt(1, instalacion ? 10 : 2),
+      cantidad: randInt(1, 2),
       precio: c.precio,
     }))
     resultado.push({
@@ -65,11 +67,11 @@ export function simularDia(ofertas, dia, variables, rng = Math.random) {
         direccion: `Calle ${randInt(1, 120)} # ${randInt(1, 90)}-${randInt(1, 99)}`,
         contacto: 'Administración',
       },
-      tipo: instalacion ? 'Instalación' : 'Reparación',
+      tipo: preventivo ? 'Mantenimiento preventivo' : 'Mantenimiento correctivo',
       tecnico: pick(TECNICOS),
       fechaVisita: fecha.toISOString().slice(0, 10),
       items,
-      horas: instalacion ? randInt(40, 120) : randInt(4, 24),
+      horas: preventivo ? randInt(2, 8) : randInt(4, 24),
       tarifaHora: variables.tarifaHora,
       // C1 varía por oferta según condiciones especiales: ±10 puntos sobre el defecto, entre 1 y 100
       margen: Math.min(100, Math.max(1, variables.margen + randInt(-10, 10))),
@@ -78,4 +80,28 @@ export function simularDia(ofertas, dia, variables, rng = Math.random) {
     })
   }
   return resultado
+}
+
+// Etapa comercial de una oferta en el día `dia` de la simulación (regla, no estado guardado).
+// Textos visibles: Enviada, En negociación, Aprobada, Rechazada.
+// Una oferta Enviada se decide a los 2 días (ver simularDia); mientras tanto:
+//  - el día en que se envía queda "Enviada" (el cliente aún no responde),
+//  - desde el día siguiente queda "En negociación" (el cliente la está revisando).
+export function etapaOferta(oferta, dia) {
+  if (oferta.estado === 'Aceptada') return 'Aprobada'
+  if (oferta.estado === 'Rechazada') return 'Rechazada'
+  return dia - oferta.dia >= 1 ? 'En negociación' : 'Enviada'
+}
+
+// Ofertas guardadas antes de que el sistema manejara solo mantenimiento:
+// Reparación e Instalación pasan a Mantenimiento correctivo.
+const TIPO_ANTERIOR = { 'Reparación': 'Mantenimiento correctivo', 'Instalación': 'Mantenimiento correctivo' }
+export function migrarOfertas(ofertas) {
+  if (!Array.isArray(ofertas)) return []
+  return ofertas.map((o) => (TIPO_ANTERIOR[o.tipo] ? { ...o, tipo: TIPO_ANTERIOR[o.tipo] } : o))
+}
+
+// Texto del estado guardado para exportes (sin día: no distingue En negociación).
+export function etiquetaEstado(estado) {
+  return estado === 'Aceptada' ? 'Aprobada' : estado || ''
 }

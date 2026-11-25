@@ -1,103 +1,102 @@
 # Sistema de diseño — Elevia Ofertas
 
-Fuente de verdad: `src/index.css` (tokens en `@theme` y clases de componente) y los componentes en `src/components/`.
+Fuente de verdad: `src/index.css` (tokens en `@theme`, variables por tema y clases de componente), `src/components/chartTema.js` (colores de gráficas) y los componentes en `src/components/`.
 
 ## Dirección
 
-Botonera de cabina de un ascensor: acero cepillado frío, cifras grabadas y pulsadores que se encienden. El tablero debe leerse de un vistazo en un proyector: los números mandan, la decoración no.
+Panel comercial ejecutivo con estándar Enterprise SaaS de multinacional. Referencias pedidas por el usuario: Power BI, Salesforce Lightning, SAP Analytics Cloud, Schneider EcoStruxure. Minimalista, mucho espacio en blanco, premium y sobrio: lo lee un directivo en un proyector o en una tableta.
 
-Se rechaza el SaaS gris de tarjetas idénticas con acento azul. El único color con función propia es el ámbar, y se usa para indicar qué está activo.
+Reemplaza por completo la dirección anterior ("botonera de cabina", acero y ámbar, Barlow).
+
+Reglas de la dirección:
+- El dato manda. Cifras grandes y tabulares; el resto en gris secundario.
+- Un solo color de marca (azul primario). Verde, ámbar y rojo solo comunican estado (bien, vigilar, crítico), nunca decoran.
+- Consistencia total: mismo radio, borde, sombra y espaciado en cada panel.
 
 ## Color
 
-Acero (neutros, base de toda la interfaz):
+La paleta la fijó el usuario. Cada token existe en claro y en oscuro (`:root` y `.dark` en `index.css`); los componentes usan los nombres semánticos (`bg-superficie`, `text-texto-2`, …), nunca hex sueltos.
 
-| Token | Hex | Rol |
-|---|---|---|
-| `acero-50` | #f4f6f7 | Superficie de placas y paneles |
-| `acero-100` | #e9edf0 | Fondo de página, hover de botón, cabecera de tabla |
-| `acero-200` | #d6dce1 | Separadores internos, rejilla de gráficas, texto sobre la banda |
-| `acero-300` | #bcc5cc | Borde 1px de placas y separadores de KPI |
-| `acero-400` | #8f9aa4 | Borde de campos y botones |
-| `acero-500` | #66727d | Iconos informativos |
-| `acero-600` | #4a545e | Etiquetas y texto secundario (contraste AA sobre acero-50) |
-| `acero-700` | #353d45 | Hover del botón primario |
-| `acero-800` | #252b31 | Banda superior; serie "Instalación" |
-| `acero-900` | #15191d | Texto grabado, botón primario, dígito de piso |
+| Token | Claro | Oscuro | Rol |
+|---|---|---|---|
+| `fondo` | #F8FAFC | #0B1120 | Fondo de página |
+| `superficie` | #FFFFFF | #111A2C | Tarjetas, encabezado, modales, campos |
+| `sutil` | #F1F5F9 | #18233A | Hover, cabecera de tabla, pistas de barras, celdas vacías |
+| `borde` | #E5E7EB | #233049 | Borde 1 px de tarjetas y separadores |
+| `borde-fuerte` | #D1D5DB | #31415F | Borde de campos y botones |
+| `texto` | #111827 | #F1F5F9 | Texto principal y cifras |
+| `texto-2` | #6B7280 | #9AA6B8 | Etiquetas, subtítulos, texto secundario (AA sobre fondo y superficie) |
+| `texto-3` | #9CA3AF | #64748B | Iconos informativos y marcas de eje; no para texto de lectura |
+| `primario` | #0057B8 | #4D9BF0 | Marca, botón primario, serie "Ganado", barras, foco, selección |
+| `primario-suave` | 8 % de primario | 14 % | Fondo de iconos de KPI, chips activos, avatar |
+| `exito` / `exito-texto` | #10B981 / #047857 | #34D399 | Desempeño bueno, variación positiva, banda de meta |
+| `alerta` / `alerta-texto` | #F59E0B / #B45309 | #FBBF24 | En riesgo, pausa, alertas automáticas |
+| `critico` / `critico-texto` | #DC2626 / #B91C1C | #F87171 | Bajo meta, variación negativa, rechazadas, errores, línea de meta mínima |
 
-Ámbar (señal de estado, no decoración):
-
-| Token | Hex | Rol |
-|---|---|---|
-| `ambar-300` | #ffd27a | Selección de texto |
-| `ambar-400` | #f6b532 | Anillo del pulsador activo; dígito de día mientras la simulación corre |
-| `ambar-500` | #e39b0b | Anillo de foco visible (`:focus-visible`) |
-| `ambar-700` | #8a5a00 | Reservado; sin uso actual |
-
-Estados de oferta y series de datos:
-
-| Token | Hex | Rol |
-|---|---|---|
-| `enviada` | #2f6496 | Estado Enviada; serie "Ofertado"; barras del top 5 |
-| `aceptada` | #1d7448 | Estado Aceptada; serie "Ganado"; icono de conclusión positiva |
-| `rechazada` | #b0291f | Estado Rechazada; error de campo; icono de alerta |
-| `serie-instalacion` | #252b31 | Dona: Instalación |
-| `serie-reparacion` | #8f9aa4 | Dona: Reparación |
-
-Regla: **ámbar solo para activo / encendido y foco.** Nunca para botones normales, títulos, badges ni bordes decorativos. Los estados de oferta usan azul, verde y rojo para no competir con el ámbar.
+Los colores de estado tienen una variante `-texto` porque #10B981 y #F59E0B no llegan a 4,5:1 sobre blanco: el color base se usa en puntos, barras e iconos; la variante oscura en texto. Los chips de estado usan el color al 10 % de fondo.
 
 ## Tipografía
 
-- **Cuerpo**: Barlow (400, 500, 600) vía `--font-sans`. Textos, formularios, tabla.
-- **Display**: Barlow Semi Condensed (500, 600, 700) vía `--font-display` y la clase `font-display`. Títulos de placa, nombre de la app, valores de KPI, dígito de piso. Se usa en mayúsculas con tracking leve solo en etiquetas pequeñas (cabecera de KPI, cabecera de tabla).
-- **Cifras**: `tabular-nums` en todo número que cambie (KPIs, totales, tabla, campos numéricos) para que las columnas no se muevan al actualizarse. La clase `table` lo aplica por defecto.
-- Escala: título de app 24 px; títulos de placa 18 px; valores KPI 20 px; cuerpo 14 px; etiquetas 12 px.
+- **Inter** (400, 500, 600, 700) autohospedada con `@fontsource/inter`. Una sola familia.
+- Escala: título de página 24 px semibold; valor de KPI 24 px semibold; pronóstico 30 px; título de tarjeta 15 px semibold; cuerpo 14 px; etiquetas y subtítulos 12–13 px.
+- Tracking −0,01 em en títulos y cifras grandes.
+- `tabular-nums` en todo número que cambie (KPIs, tabla, rankings, ejes, campos numéricos).
+- Montos largos se compactan en tarjetas (`$ 245,3 M`, `$ 1,2 MM`) con el valor completo en `title`.
+
+## Forma y profundidad
+
+- Radio de tarjeta 12 px (`--radius-card`); controles 8 px (`--radius-control`); chips y búsqueda en píldora.
+- Borde 1 px `borde` + sombra sutil `--shadow-card` (desplazada y difusa). Popovers con `--shadow-pop`.
+- Sin gradientes de fondo ni vidrio. Único degradado: el relleno bajo la serie "Ganado" de la gráfica.
 
 ## Componentes
 
-**Placa (`.placa`)**: superficie `acero-50`, borde 1px `acero-300`, radio 6px y sombra suave. Es el contenedor de todos los bloques: KPIs, gráficas, conclusiones, variables, tabla.
+**Encabezado** (sticky desde 1024 px): logo ficticio (cabina con flechas, dibujado en SVG), búsqueda universal en píldora con atajo `Ctrl K` y resultados en popover, fecha y hora local, botón de tema, notificaciones con contador de alertas, configuración y perfil de demostración.
 
-**Campo (`.campo`)**: fondo blanco, borde `acero-400`, radio 4px, altura mínima 36 px. Con `aria-invalid="true"` el borde pasa a `rechazada` y el mensaje se muestra debajo con `role="alert"`.
+**Barra de mando** (segunda fila del encabezado): selector de período, filtros globales de tipo y técnico, progreso **DÍA n / 30** con punto de estado (verde en curso, ámbar en pausa, azul mes cerrado) y barra, grupo segmentado de simulación (Iniciar/Reanudar o Pausa, +1 día, +7 días, Reinicio) y botón primario **Nuevo requerimiento**.
 
-**Botón (`.btn`)**: blanco con borde `acero-400`, altura mínima 36 px, hover `acero-100`. Estado deshabilitado con opacidad 45 %.
-- **`.btn-primario`**: fondo `acero-900`, texto blanco. Una sola acción primaria por zona.
-- **`.btn-sm`**: 32 px de altura, para acciones dentro de filas (descargar PDF, eliminar ítem).
+**Tarjeta (`.card` + `Card.jsx`)**: superficie, borde, radio 12, sombra; título 15 px y subtítulo 13 px; acción opcional a la derecha. Estado vacío con texto centrado que invita a iniciar la simulación.
 
-**Pulsador (`.pulsador`)**: botón circular de 44 px con gradiente de acero y sombra de bisel, etiqueta debajo. Al pulsar se hunde 1 px.
-- Con `aria-pressed="true"` aparece un anillo ámbar de 2 px con halo suave: es la señal de que la simulación está corriendo (Iniciar) o en pausa (Pausa).
-- Iniciar, Pausa y Reinicio son los tres pulsadores de la banda superior.
+**Tarjeta KPI**: icono en cuadro `primario-suave`, botón de ayuda con tooltip (anclado a la tarjeta para no salirse de la pantalla), etiqueta, cifra, sparkline del acumulado del período (línea primaria + área al 8 %), chip de variación (flecha, verde/rojo, en % o en puntos porcentuales `pp`) con su base de comparación, y pie de desempeño con punto de color cuando hay una meta o regla.
 
-**Indicador de piso**: el texto "DÍA 12 / 30" va en un recuadro `acero-900` con tipografía display tabular. Cambia a ámbar mientras corre.
+**Botones**: `.btn` (superficie, borde fuerte, 36 px), `.btn-primario` (primario), `.btn-sm` (32 px), `.btn-icono` (36 px, sin borde, para el encabezado y filas).
 
-**Badges de estado**: texto de 12 px en un rectángulo redondeado con borde al 30 % del color y fondo al 10 %. Azul para Enviada, verde para Aceptada, rojo para Rechazada.
+**Campos**: `.campo` 36 px, borde fuerte, foco con borde primario y halo `primario-suave` de 3 px.
 
-**Fila de KPI**: una sola placa dividida en siete celdas con reglas de 1px `acero-300` (sin tarjetas separadas). Cada celda: etiqueta pequeña arriba, cifra grande abajo. Sin íconos.
+**Chips de etapa**: píldora con fondo al 10 %: Enviada gris, En negociación azul, Aprobada verde, Rechazada rojo.
 
-**Formulario lateral (drawer)**: panel fijo a la derecha, 560 px en escritorio y pantalla completa en móvil, sobre una capa `acero-900` al 50 %. Se cierra con Escape, con la capa o con el botón de cerrar. Los totales se muestran en una placa al pie con la cifra final en display.
+**Listas con barra** (ranking, top clientes, funnel): fila con nombre y cifra, barra de 6–8 px sobre pista `sutil`, detalle en 12 px.
+
+**Mapa de calor**: tabla de celdas de 24 px con radio 4; intensidad = primario mezclado al 22–100 %; días futuros en `sutil` atenuado; columna del día actual resaltada.
+
+**Modales** (Nuevo requerimiento, Configuración): superficie, radio 12, velo #0B1120 al 55 %, cierre con Escape.
 
 ## Layout
 
-- Ancho máximo 1440 px, centrado; márgenes de 16 px en móvil y 24 px desde `sm`.
-- Escritorio (`xl`, 1280 px o más): columna principal a la izquierda y columna lateral de 320 px con variables y conclusiones.
-- Móvil y tablet: una sola columna en el orden banda, KPIs, gráficas, conclusiones, variables y tabla.
-- La tabla de ofertas tiene scroll horizontal interno (mínimo 640 px de ancho) y cabecera fija.
+- Ancho máximo 1440 px, márgenes 16 / 24 px, separación entre bloques 24 px.
+- Orden: título de página + exportes, 7 KPIs, gráfica acumulada + pronóstico, mapa de calor + conclusiones, funnel + ranking + clientes, dona + top ítems, tabla.
+- KPIs: 7 columnas desde 1280 px, 4 en 1024, 3 en 768, 2 desde 420, 1 en móvil.
+- Columnas de 360 px a la derecha desde 1280 px; en tablet los paneles pasan a 2 columnas y en móvil a 1.
+- Tablas anchas (ofertas, mapa de calor) con scroll horizontal propio; la página nunca desborda a 375 px.
 
 ## Gráficas
 
-- Chart.js con fuente Barlow y color de texto `#4a545e`.
-- Rejilla y ejes en `acero-200` (#d6dce1).
-- Línea: "Ofertado" en azul `enviada` y "Ganado" en verde `aceptada`, con tensión 0,25 y puntos de 2 px. Eje Y en formato compacto (`$ 12 M`, `$ 800 k`).
-- Dona: Instalación en `acero-800` y Reparación en `serie-reparacion` (#8f9aa4), sin usar el ámbar; grosor de corte 60 %, separación de 2 px en color de fondo.
-- Barras horizontales del top 5 en azul `enviada`; etiquetas de más de 28 caracteres se recortan con puntos suspensivos.
-- Las gráficas se sincronizan con la simulación con animación de 300 ms. Sin datos se muestra un texto que invita a iniciar la simulación o crear una oferta.
-- Nota de implementación: los colores de las gráficas están escritos como valores hex en `Graficas.jsx`, no como tokens de Tailwind. Si cambia la paleta, actualizar ambos sitios.
+- Chart.js con Inter; colores de `paleta(tema)` en `chartTema.js` (canvas no lee variables CSS).
+- Acumulado: líneas monotónicas suavizadas; Ofertado azul claro, Ganado primario con área degradada, Proyección lineal punteada, Mes anterior gris discontinuo. Banda de meta verde al 8 % entre meta mínima y máxima, meta mínima en rojo punteado. Leyenda como chips que ocultan series. Zoom: arrastrar, Ctrl + rueda, pellizco; Shift + arrastre para desplazar; doble clic o "Restablecer".
+- Tooltip oscuro (claro en modo oscuro) con título "Día n de 30", valores en COP y pie con conversión y brecha a la meta.
+- Animación 450 ms `easeOutQuart`; los cambios de ancho de barras duran 500 ms. Con `prefers-reduced-motion` se anulan.
+
+## Honestidad de los datos
+
+- Todo indicador sale de las ofertas del estado (simuladas o manuales). La interfaz dice "simulado" en el título de página, en la gráfica, en las alertas y en el pie.
+- El pronóstico se rotula como proyección estadística con su método; no se presenta como IA.
+- El perfil es un usuario de demostración; no hay login.
 
 ## Qué evitar
 
-- Tarjetas idénticas con sombra y radio grandes repetidas en cuadrícula sin jerarquía.
-- Gradientes de fondo, efectos de vidrio (glass) y brillos decorativos. El único gradiente permitido es el bisel de los pulsadores.
-- Emojis en la interfaz, en gráficas o en los PDF y Excel.
-- Ámbar decorativo: en títulos, en botones normales, en badges o como acento de marca. Si algo no está encendido o activo, no es ámbar.
-- Íconos decorativos en las cifras KPI. Los íconos solo acompañan acciones o estados.
-- Números que cambian de ancho al actualizarse: siempre `tabular-nums`.
-- Mostrar `NaN`: con cero datos se muestra `0` o `—`.
+- Color de estado como decoración, o más de un color de marca.
+- Tarjetas anidadas, bordes laterales de color, sombras duras, vidrio, texto con degradado.
+- Emojis en la interfaz, en gráficas o en PDF/Excel.
+- Hex sueltos en componentes: usar tokens (excepción documentada: `chartTema.js`).
+- Mostrar `NaN`: con cero datos se muestra `0`, `—` o el estado vacío.
+- Logos, nombres o colores de empresas reales.

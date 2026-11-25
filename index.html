@@ -3,7 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Elevia Ofertas</title>
+    <meta name="color-scheme" content="light dark" />
+    <title>Elevia Ofertas · Panel comercial</title>
+    <script>
+      // Aplica el tema guardado antes de pintar (evita el destello claro en modo oscuro).
+      try {
+        var t = JSON.parse(localStorage.getItem('elevia.tema'))
+        if (t === 'oscuro' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark')
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

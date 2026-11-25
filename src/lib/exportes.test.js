@@ -7,7 +7,7 @@ import { kpis, conclusiones } from './calculos.js'
 const oferta = {
   id: 1, numero: 'OF-0012', dia: 3, origen: 'manual',
   cliente: { nombre: 'Taller Demo SAS', nit: '900.000.000-1', direccion: 'Cra 1 # 2-3', contacto: '300 000 0000' },
-  tipo: 'Instalación', tecnico: 'Técnico Uno', fechaVisita: '2026-11-10',
+  tipo: 'Mantenimiento correctivo', tecnico: 'Técnico Uno', fechaVisita: '2026-11-10',
   items: [{ descripcion: 'Motor 5 HP', cantidad: 2, precio: 1500000 }, { descripcion: 'Cable', cantidad: 10, precio: 12000 }],
   horas: 4, tarifaHora: 95000, margen: 25, iva: 19, estado: 'Aceptada',
 }

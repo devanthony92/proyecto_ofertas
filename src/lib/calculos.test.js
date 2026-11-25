@@ -3,7 +3,7 @@ import {
   formatoCOP, totalesOferta, kpis, conclusiones, serieDiaria, valorPorTipo, topItems, VARIABLES_DEFECTO,
 } from './calculos'
 
-const base = { items: [], horas: 0, tarifaHora: 100000, margen: 25, iva: 19, dia: 1, tipo: 'Reparación', estado: 'Enviada' }
+const base = { items: [], horas: 0, tarifaHora: 100000, margen: 25, iva: 19, dia: 1, tipo: 'Mantenimiento correctivo', estado: 'Enviada' }
 const of = (extra) => ({ ...base, ...extra })
 
 describe('formatoCOP', () => {
@@ -88,7 +88,7 @@ describe('conclusiones', () => {
       .toContain('Alta carga de mano de obra: revisar capacidad del equipo técnico.')
   })
   it('sin reglas -> mensaje por defecto', () => {
-    const o = [of({ tipo: 'Instalación', items: [{ cantidad: 1, precio: 1000000 }], horas: 1 })]
+    const o = [of({ tipo: 'Mantenimiento preventivo', items: [{ cantidad: 1, precio: 1000000 }], horas: 1 })]
     expect(conclusiones(o, VARIABLES_DEFECTO)).toEqual([{ tipo: 'info', texto: 'Indicadores dentro de rangos normales.' }])
   })
 })
@@ -103,9 +103,9 @@ describe('serieDiaria / valorPorTipo / topItems', () => {
     expect(s[2].ganado).toBeCloseTo(1487500)
   })
   it('valorPorTipo', () => {
-    const r = valorPorTipo([of({ tipo: 'Instalación', horas: 10 }), of({ horas: 10 })])
-    expect(r['Instalación']).toBeCloseTo(1487500)
-    expect(r['Reparación']).toBeCloseTo(1487500)
+    const r = valorPorTipo([of({ tipo: 'Mantenimiento preventivo', horas: 10 }), of({ horas: 10 })])
+    expect(r['Mantenimiento preventivo']).toBeCloseTo(1487500)
+    expect(r['Mantenimiento correctivo']).toBeCloseTo(1487500)
   })
   it('topItems suma y ordena', () => {
     const o = [

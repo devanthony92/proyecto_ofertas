@@ -1,10 +1,13 @@
+// Únicos tipos de trabajo del sistema.
+export const TIPOS = ['Mantenimiento correctivo', 'Mantenimiento preventivo']
+
 export const VARIABLES_DEFECTO = {
   tarifaHora: 95000,
   margen: 25,
   iva: 19,
-  visitasDia: 2,
+  visitasDia: 4,
   probCierre: 35,
-  pctInstalacion: 1,
+  pctPreventivo: 50, // % de visitas que son mantenimiento preventivo
   velocidad: 1,
   metaMin: 200, // meta de facturación mensual, millones COP
   metaMax: 300,
@@ -67,7 +70,7 @@ export function kpis(ofertas) {
 }
 
 export function valorPorTipo(ofertas) {
-  const r = { 'Instalación': 0, 'Reparación': 0 }
+  const r = Object.fromEntries(TIPOS.map((t) => [t, 0]))
   for (const o of ofertas) if (o.tipo in r) r[o.tipo] += totalesOferta(o).total
   return r
 }
