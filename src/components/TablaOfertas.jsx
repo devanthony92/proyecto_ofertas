@@ -5,10 +5,10 @@ import { etapaOferta } from '../lib/simulacion'
 import { ETAPAS } from '../lib/analitica'
 
 const BADGE = {
-  'Pendiente': 'bg-sutil text-texto-2',
+  'Enviada': 'bg-sutil text-texto-2',
   'En negociación': 'bg-primario-suave text-primario',
-  'Ganada': 'bg-exito/10 text-exito-texto',
-  'Perdida': 'bg-critico/10 text-critico-texto',
+  'Aprobada': 'bg-exito/10 text-exito-texto',
+  'Rechazada': 'bg-critico/10 text-critico-texto',
 }
 
 export default function TablaOfertas({ ofertas, total, dia, busqueda, onBusqueda, onPdf, onExcel, onReporte }) {

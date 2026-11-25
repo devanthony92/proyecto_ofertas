@@ -29,9 +29,9 @@ function Lista({ filas, detalle }) {
 
 export function RankingTecnicos({ filas }) {
   return (
-    <Card id="h-ranking" titulo="Ranking de técnicos" sub="Por valor ganado en el período">
+    <Card id="h-ranking" titulo="Ranking de técnicos" sub="Valor ganado de las ofertas que salen de sus requerimientos">
       {filas.length ? (
-        <Lista filas={filas.slice(0, 5)} detalle={(f) => `${f.ofertas} ofertas · cierre ${formatoPct(f.tasa)}`} />
+        <Lista filas={filas.slice(0, 5)} detalle={(f) => `${f.ofertas} requerimientos · cierre ${formatoPct(f.tasa)}`} />
       ) : (
         <Vacio />
       )}
@@ -43,9 +43,9 @@ export function TopClientes({ filas }) {
   return (
     <Card id="h-clientes" titulo="Top clientes por facturación" sub="Valor ganado en el período · clientes ficticios">
       {filas.length ? (
-        <Lista filas={filas} detalle={(f) => `${f.aceptadas} de ${f.ofertas} ofertas ganadas`} />
+        <Lista filas={filas} detalle={(f) => `${f.aceptadas} de ${f.ofertas} ofertas aprobadas`} />
       ) : (
-        <Vacio>Aún no hay ofertas ganadas en el período.</Vacio>
+        <Vacio>Aún no hay ofertas aprobadas en el período.</Vacio>
       )}
     </Card>
   )

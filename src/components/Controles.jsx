@@ -1,5 +1,6 @@
 import { Play, Pause, RotateCcw, StepForward, FastForward, Plus, CalendarRange, Filter } from 'lucide-react'
 import { PERIODOS } from '../lib/analitica'
+import { TIPOS } from '../lib/calculos'
 
 // Barra de mando bajo el encabezado: período, filtros globales, progreso del mes y simulación.
 export default function Controles({
@@ -28,8 +29,7 @@ export default function Controles({
             <Filter size={15} className="pointer-events-none absolute top-1/2 left-2.5 -translate-y-1/2 text-texto-2" aria-hidden="true" />
             <select className="campo !w-auto !py-1 !pl-8" value={tipo} onChange={(e) => onTipo(e.target.value)}>
               <option value="">Todos los tipos</option>
-              <option value="Instalación">Instalación</option>
-              <option value="Reparación">Reparación</option>
+              {TIPOS.map((t) => <option key={t} value={t}>{t}</option>)}
             </select>
           </label>
           <label>

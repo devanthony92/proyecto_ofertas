@@ -3,12 +3,12 @@ import Card, { Vacio } from './Card'
 const ETAPAS = [
   ['creadas', 'Creadas', 'bg-primario'],
   ['En negociación', 'En negociación', 'bg-primario/60'],
-  ['Pendiente', 'Pendientes', 'bg-texto-3'],
-  ['Ganada', 'Ganadas', 'bg-exito'],
-  ['Perdida', 'Perdidas', 'bg-critico'],
+  ['Enviada', 'Enviadas (sin respuesta)', 'bg-texto-3'],
+  ['Aprobada', 'Aprobadas', 'bg-exito'],
+  ['Rechazada', 'Rechazadas', 'bg-critico'],
 ]
 
-// Funnel comercial. Pendiente = enviada hoy; En negociación = enviada hace 1 día o más, aún sin decidir.
+// Funnel comercial. Enviada = enviada hoy, sin respuesta; En negociación = enviada hace 1 día o más, aún sin decidir.
 export default function Embudo({ datos }) {
   const total = datos.creadas
   return (
@@ -38,7 +38,7 @@ export default function Embudo({ datos }) {
         <Vacio />
       )}
       <p className="mt-4 text-xs leading-relaxed text-texto-2">
-        Regla de la simulación: la oferta queda pendiente el día en que se envía, pasa a negociación al día siguiente y se gana o pierde a los 2 días.
+        Regla de la simulación: la oferta queda enviada el día en que sale, pasa a negociación al día siguiente y se aprueba o rechaza a los 2 días.
       </p>
     </Card>
   )

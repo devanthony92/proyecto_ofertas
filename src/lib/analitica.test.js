@@ -6,7 +6,7 @@ import { VARIABLES_DEFECTO } from './calculos'
 
 // MO 10 h × 100.000 = 1.000.000 → total con 25 % y IVA 19 % = 1.487.500
 const of = (extra) => ({
-  items: [], horas: 10, tarifaHora: 100000, margen: 25, iva: 19, dia: 1, tipo: 'Reparación',
+  items: [], horas: 10, tarifaHora: 100000, margen: 25, iva: 19, dia: 1, tipo: 'Mantenimiento correctivo',
   estado: 'Enviada', tecnico: 'Ana', cliente: { nombre: 'Edificio A' }, ...extra,
 })
 const T = 1487500
@@ -23,10 +23,10 @@ describe('rangoPeriodo', () => {
 })
 
 describe('filtros, series y variación', () => {
-  const ofs = [of({ dia: 1 }), of({ dia: 3, tipo: 'Instalación', tecnico: 'Luis' }), of({ dia: 5, tecnico: '' })]
+  const ofs = [of({ dia: 1 }), of({ dia: 3, tipo: 'Mantenimiento preventivo', tecnico: 'Luis' }), of({ dia: 5, tecnico: '' })]
   it('filtra por día, tipo y técnico (vacío = Sin asignar)', () => {
     expect(filtrarOfertas(ofs, { desde: 2, hasta: 5 })).toHaveLength(2)
-    expect(filtrarOfertas(ofs, { tipo: 'Instalación' })).toHaveLength(1)
+    expect(filtrarOfertas(ofs, { tipo: 'Mantenimiento preventivo' })).toHaveLength(1)
     expect(filtrarOfertas(ofs, { tecnico: 'Sin asignar' })).toHaveLength(1)
   })
   it('serieKpi acumula día a día', () => {
@@ -41,14 +41,14 @@ describe('filtros, series y variación', () => {
 
 describe('embudo, mapa de calor, rankings', () => {
   const ofs = [
-    of({ dia: 5 }), // Pendiente en día 5
+    of({ dia: 5 }), // Enviada en día 5
     of({ dia: 4 }), // En negociación
     of({ dia: 1, estado: 'Aceptada', cliente: { nombre: 'Torre B' } }),
     of({ dia: 1, estado: 'Aceptada', tecnico: 'Luis' }),
     of({ dia: 2, estado: 'Rechazada', tecnico: 'Luis' }),
   ]
   it('embudo cuenta cada etapa', () => {
-    expect(embudo(ofs, 5)).toEqual({ creadas: 5, 'Pendiente': 1, 'En negociación': 1, 'Ganada': 2, 'Perdida': 1 })
+    expect(embudo(ofs, 5)).toEqual({ creadas: 5, 'Enviada': 1, 'En negociación': 1, 'Aprobada': 2, 'Rechazada': 1 })
   })
   it('mapa de calor por técnico y día', () => {
     const m = mapaCalor(ofs, 5, ['Ana', 'Luis', 'Sin ofertas'])

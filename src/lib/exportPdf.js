@@ -1,6 +1,7 @@
 import { jsPDF } from 'jspdf'
 import { autoTable } from 'jspdf-autotable'
 import { formatoCOP, totalesOferta } from './calculos.js'
+import { etiquetaEstado } from './simulacion.js'
 
 // Paleta de marca (DESIGN.md): primario #0057B8, texto #111827, bordes #E5E7EB, fondo sutil #F1F5F9
 const PRIMARIO = [0, 87, 184]
@@ -170,7 +171,7 @@ export function construirPdfReporte(ofertas, k, conclusiones = []) {
     startY: y,
     head: [['N°', 'Día', 'Cliente', 'Tipo', 'Total', 'Estado']],
     body: ofertas.map((o) => [
-      o.numero, String(o.dia), o.cliente?.nombre || '', o.tipo, formatoCOP(totalesOferta(o).total), o.estado,
+      o.numero, String(o.dia), o.cliente?.nombre || '', o.tipo, formatoCOP(totalesOferta(o).total), etiquetaEstado(o.estado),
     ]),
     columnStyles: { 4: { halign: 'right' } },
     margin: { left: 14, right: 14, bottom: 18 },

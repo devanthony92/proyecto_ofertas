@@ -12,17 +12,18 @@ Vite + React (JavaScript) + Tailwind CSS v4 + Chart.js (react-chartjs-2) + jsPDF
 
 ## Users
 
-- **Técnico / asesor comercial** of an elevator service company: after a site visit, turns the list of equipment, materials, spare parts and labor hours into a client quote (oferta) and downloads it as PDF.
+- **Técnico** of an elevator service company: after a site visit, raises a *requerimiento* (findings: spare parts, consumables and labor hours). The técnico does not quote.
+- **Asesor comercial**: turns each requerimiento into a client quote (oferta, 1:1), adjusts C1 and downloads it as PDF.
 - **Jefe comercial**: watches the month's quote pipeline, edits business assumptions and exports reports.
 - **Evaluators**: university professors and portfolio visitors watching a live demo on a laptop or projector. This is the primary real-world context.
 
 ## Product Purpose
 
-"Elevia Ofertas" generates elevator installation and repair quotes from technician visit data, with automatic totals (margin, IVA 19%, COP), and simulates a 30-day commercial month (start / pause / reset) to show live KPIs, charts, a table and automatic conclusions. Success: a group project that meets every university requirement and reads as a credible startup-style business tool.
+"Elevia Ofertas" generates elevator maintenance quotes (corrective and preventive only) from the requerimientos técnicos raise after a visit, with automatic totals (margin, IVA 19%, COP), and simulates a 30-day commercial month (start / pause / reset) to show live KPIs, charts, a table and automatic conclusions. Success: a group project that meets every university requirement and reads as a credible startup-style business tool.
 
 ## Positioning
 
-Built by someone who works in the elevator service industry: the quote structure (equipos, materiales, repuestos, horas de mano de obra, instalación nueva vs reparación) mirrors real practice instead of a generic invoice demo.
+Built by someone who works in the elevator service industry: the flow (técnico raises a requerimiento, asesor comercial quotes it) and the quote structure (repuestos, materiales, consumibles, horas de mano de obra, mantenimiento correctivo vs preventivo) mirror real practice instead of a generic invoice demo.
 
 ## Operating Context
 

@@ -4,11 +4,12 @@
 
 ## Problema
 
-Después de una visita técnica, el técnico entrega una lista de equipos, materiales, repuestos y horas de mano de obra. Convertir esa lista en una oferta formal para el cliente es lento y propenso a errores de cálculo. La gerencia, además, no ve de forma simple cuántas ofertas se generan, cuánto valen y cuántas se cierran.
+Después de una visita técnica, el técnico levanta un **requerimiento**: la lista de repuestos, materiales, consumibles y horas de mano de obra que hacen falta. El técnico no cotiza: con ese requerimiento el asesor comercial elabora la oferta. Convertir el requerimiento en una oferta formal para el cliente es lento y propenso a errores de cálculo. La gerencia, además, no ve de forma simple cuántas ofertas se generan, cuánto valen y cuántas se cierran.
 
 ## Usuarios
 
-- **Técnico / asesor comercial**: arma la oferta y la descarga en PDF.
+- **Técnico**: levanta el requerimiento después de la visita.
+- **Asesor comercial**: elabora la oferta a partir del requerimiento (uno a uno), ajusta el C1 y la descarga en PDF.
 - **Jefe comercial**: mira el dashboard del mes, ajusta supuestos y exporta reportes.
 
 ## Principio
@@ -25,11 +26,11 @@ Empresa ficticia: **Elevia Ofertas**. No se usan nombres ni logos de empresas re
 
 ### HU-1 Crear una oferta (botón **Nuevo requerimiento**)
 
-Como técnico quiero registrar la información de la visita para generar una oferta.
+Como asesor comercial quiero registrar el requerimiento que levantó el técnico para generar la oferta. Cada requerimiento produce una oferta.
 
 **Criterios de aceptación**
-- [ ] Puedo ingresar: cliente (nombre, NIT, dirección, contacto), tipo de trabajo (Instalación nueva / Reparación), nombre del técnico y fecha de visita.
-- [ ] Puedo agregar ítems desde un catálogo (equipos, materiales, repuestos) o escribir un ítem libre.
+- [ ] Puedo ingresar: cliente (nombre, NIT, dirección, contacto), tipo de trabajo (**Mantenimiento correctivo** / **Mantenimiento preventivo**, los únicos del sistema), técnico que levanta el requerimiento y fecha de visita.
+- [ ] Puedo agregar ítems desde un catálogo (repuestos, materiales y consumibles de mantenimiento preventivo) o escribir un ítem libre.
 - [ ] Puedo editar cantidad y precio unitario de cada ítem, y eliminarlo.
 - [ ] Puedo ingresar horas estimadas de mano de obra; la tarifa por hora viene de las variables globales.
 - [ ] Puedo ajustar el **C1** (margen de ganancia) de esa oferta entre 1 y 100 %; arranca en el C1 por defecto de Configuración.
@@ -39,7 +40,7 @@ Como técnico quiero registrar la información de la visita para generar una ofe
 
 ### HU-2 Descargar la oferta en PDF
 
-Como técnico quiero descargar la oferta en PDF para enviársela al cliente.
+Como asesor comercial quiero descargar la oferta en PDF para enviársela al cliente.
 
 **Criterios de aceptación**
 - [ ] El PDF incluye: encabezado de la empresa, número de oferta, fecha, datos del cliente, tipo de trabajo, tabla de ítems (descripción, cantidad, precio unitario, total), mano de obra, subtotal, IVA, total.
@@ -56,9 +57,11 @@ Como jefe comercial quiero simular el flujo de ofertas de un mes para ver cómo 
 - [ ] Botón **Pausa**: detiene el avance sin borrar datos; Iniciar continúa desde el mismo día.
 - [ ] Botón **Reinicio**: vuelve al día 0 y borra las ofertas simuladas.
 - [ ] Botones **+1 día** y **+7 días**: avanzan la simulación a mano (con la simulación detenida), para explicar el sistema creando requerimientos entre días.
-- [ ] Cada día se generan ofertas aleatorias (cantidad según "visitas por día"), con ítems del catálogo y tipo según "% instalaciones".
+- [ ] Cada día los técnicos levantan requerimientos aleatorios (cantidad según "requerimientos por día") y cada uno se convierte en una oferta, con tipo según "% preventivo":
+  - **Correctivo**: 1–3 repuestos distintos (cantidad 1–2), 4–24 h.
+  - **Preventivo**: visita programada de inspección, ajuste y lubricación; 0–3 consumibles (cantidad 1–2), 2–8 h.
 - [ ] Las ofertas abiertas se resuelven como **Aceptada** o **Rechazada** según "probabilidad de cierre".
-- [ ] Mientras no se decide, la oferta tiene una **etapa** comercial por regla: **Pendiente** el día en que se envía y **En negociación** desde el día siguiente. Aceptada se muestra como **Ganada** y Rechazada como **Perdida**.
+- [ ] Mientras no se decide, la oferta tiene una **etapa** comercial por regla: **Enviada** el día en que se envía y **En negociación** desde el día siguiente. Al decidirse queda **Aprobada** o **Rechazada** (en datos: Aceptada / Rechazada).
 - [ ] Al **Reinicio**, las ofertas simuladas del mes que termina se guardan como **mes anterior** (solo el último) para comparar.
 - [ ] La simulación se detiene sola al llegar al día 30.
 - [ ] Las ofertas creadas a mano también cuentan en los indicadores.
@@ -74,9 +77,9 @@ Como jefe comercial quiero cambiar los supuestos del negocio y ver el efecto al 
 | Tarifa hora técnico (COP) | 95.000 |
 | C1 por defecto: margen (%) | 25 |
 | IVA (%) | 19 |
-| Visitas por día | 2 |
+| Requerimientos por día | 4 |
 | Probabilidad de cierre (%) | 35 |
-| Instalaciones nuevas (%) | 1 |
+| Mantenimiento preventivo (%) | 50 |
 | Velocidad (segundos por día) | 1 |
 | Meta mensual mínima (millones COP) | 200 |
 | Meta mensual máxima (millones COP) | 300 |
@@ -112,7 +115,7 @@ Como jefe comercial quiero cambiar los supuestos del negocio y ver el efecto al 
 - [ ] Serie de **proyección lineal** del ganado hasta el día 30 (desde el día 5) y serie del **mes anterior** simulado si existe.
 - [ ] Las series se pueden ocultar; se puede acercar arrastrando (Ctrl + rueda, pellizco, Shift + arrastre para desplazar) y restablecer.
 - [ ] Tooltip con día, valores, conversión y brecha a la meta mínima.
-- [ ] Dona: valor por tipo de trabajo (Instalación vs Reparación).
+- [ ] Dona: valor por tipo de trabajo (Mantenimiento correctivo vs preventivo).
 - [ ] Barras: top 5 ítems más ofertados.
 - [ ] Las gráficas se actualizan con la simulación.
 
@@ -157,9 +160,9 @@ Reglas (cada una muestra un mensaje corto):
 ### HU-12 Paneles de análisis
 
 Todo sale de las ofertas del estado (simuladas o manuales); nada se inventa.
-- [ ] **Funnel comercial**: creadas, en negociación, pendientes, ganadas, perdidas (etapas de HU-3).
-- [ ] **Actividad comercial**: mapa de calor de ofertas creadas por técnico y día.
-- [ ] **Ranking de técnicos** por valor ganado, con número de ofertas y tasa de cierre.
+- [ ] **Funnel comercial**: creadas, en negociación, enviadas (sin respuesta), aprobadas, rechazadas (etapas de HU-3).
+- [ ] **Actividad comercial**: mapa de calor de requerimientos levantados por técnico y día.
+- [ ] **Ranking de técnicos** por el valor ganado de las ofertas que salen de sus requerimientos, con número de requerimientos y tasa de cierre.
 - [ ] **Top clientes por facturación** (valor ganado).
 - [ ] **Pronóstico de cierre**: proyección lineal (ganado ÷ días × 30) frente a la banda de meta, más valor abierto y su valor esperado (× tasa de cierre). Se rotula como proyección estadística, no IA; se muestra desde el día 5.
 - [ ] **Conclusiones y alertas**: reglas de HU-9 más tendencias: ritmo de ofertas de los últimos 7 días frente a los 7 previos (±25 %), concentración de un cliente (> 35 % del ganado) y valor ganado frente al mes anterior al mismo día.

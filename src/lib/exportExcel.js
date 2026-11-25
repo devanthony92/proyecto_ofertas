@@ -1,5 +1,6 @@
 import ExcelJS from 'exceljs'
 import { totalesOferta } from './calculos.js'
+import { etiquetaEstado } from './simulacion.js'
 
 const COP = '"$" #,##0'
 
@@ -46,7 +47,7 @@ export function construirExcel(ofertas, k) {
     ofertas.map((o) => {
       const t = totalesOferta(o)
       return [o.numero, o.dia, o.fechaVisita ? String(o.fechaVisita).slice(0, 10) : '', o.cliente?.nombre || '',
-        o.cliente?.nit || '', o.tipo, o.tecnico, o.horas || 0, t.costo, t.subtotal, t.ivaValor, t.total, o.estado, o.origen]
+        o.cliente?.nit || '', o.tipo, o.tecnico, o.horas || 0, t.costo, t.subtotal, t.ivaValor, t.total, etiquetaEstado(o.estado), o.origen]
     }),
     { 9: COP, 10: COP, 11: COP, 12: COP },
   )

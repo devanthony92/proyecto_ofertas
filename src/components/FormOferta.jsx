@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Trash2, X, Plus } from 'lucide-react'
 import catalogo from '../data/catalogo.json'
-import { formatoCOP, totalesOferta } from '../lib/calculos'
+import { formatoCOP, totalesOferta, TIPOS } from '../lib/calculos'
 
 const CATEGORIAS = [...new Set(catalogo.map((c) => c.categoria))]
 const hoy = () => new Date().toISOString().slice(0, 10)
 const vacio = () => ({
   nombre: '', nit: '', direccion: '', contacto: '',
-  tipo: 'Instalación', tecnico: '', fechaVisita: hoy(), items: [], horas: 0,
+  tipo: TIPOS[0], tecnico: '', fechaVisita: hoy(), items: [], horas: 0,
 })
 
 function Campo({ id, label, error, children }) {
@@ -97,7 +97,10 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
       <div className="absolute inset-0 bg-[#0b1120]/55" onClick={onClose} aria-hidden="true" />
       <aside role="dialog" aria-modal="true" aria-labelledby="h-form" className="relative flex h-full w-full flex-col bg-superficie shadow-2xl sm:h-auto sm:max-h-[90vh] sm:max-w-3xl sm:rounded-[var(--radius-card)] sm:border sm:border-borde">
         <div className="flex items-center justify-between border-b border-borde px-5 py-4">
-          <h2 id="h-form" className="text-lg font-semibold tracking-tight">Nuevo requerimiento</h2>
+          <div>
+            <h2 id="h-form" className="text-lg font-semibold tracking-tight">Nuevo requerimiento</h2>
+            <p className="mt-0.5 text-sm text-texto-2">Lo que el técnico encontró en la visita. Con esto el asesor comercial elabora la oferta.</p>
+          </div>
           <button type="button" className="btn-icono" onClick={onClose} aria-label="Cerrar formulario"><X size={18} aria-hidden="true" /></button>
         </div>
 
@@ -120,7 +123,7 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
             <legend className="mb-2 text-sm font-semibold text-texto">Visita</legend>
             <div className="sm:col-span-2" role="group" aria-label="Tipo de trabajo">
               <div className="grid grid-cols-2 overflow-hidden rounded-lg border border-borde-fuerte">
-                {['Instalación', 'Reparación'].map((tp) => (
+                {TIPOS.map((tp) => (
                   <button
                     key={tp}
                     type="button"
@@ -128,12 +131,12 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
                     onClick={() => set('tipo', tp)}
                     className={`min-h-9 px-3 text-sm font-medium ${f.tipo === tp ? 'bg-primario text-white dark:text-fondo' : 'bg-superficie text-texto hover:bg-sutil'}`}
                   >
-                    {tp === 'Instalación' ? 'Instalación nueva' : 'Reparación'}
+                    {tp.replace('Mantenimiento ', '').replace(/^./, (c) => c.toUpperCase())}
                   </button>
                 ))}
               </div>
             </div>
-            <Campo id="o-tec" label="Técnico"><input id="o-tec" className="campo" value={f.tecnico} onChange={(e) => set('tecnico', e.target.value)} /></Campo>
+            <Campo id="o-tec" label="Técnico que levanta el requerimiento"><input id="o-tec" className="campo" value={f.tecnico} onChange={(e) => set('tecnico', e.target.value)} /></Campo>
             <Campo id="o-fecha" label="Fecha de visita"><input id="o-fecha" type="date" className="campo" value={f.fechaVisita} onChange={(e) => set('fechaVisita', e.target.value)} /></Campo>
           </fieldset>
 
@@ -218,8 +221,8 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
         </div>
 
         <div className="flex flex-wrap justify-end gap-2 border-t border-borde px-5 py-4">
-          <button type="button" className="btn" onClick={() => guardar(true)}>Guardar y descargar PDF</button>
-          <button type="button" className="btn btn-primario" onClick={() => guardar(false)}>Guardar oferta</button>
+          <button type="button" className="btn" onClick={() => guardar(true)}>Generar oferta y descargar PDF</button>
+          <button type="button" className="btn btn-primario" onClick={() => guardar(false)}>Generar oferta</button>
         </div>
       </aside>
     </div>

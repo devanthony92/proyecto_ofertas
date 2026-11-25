@@ -65,7 +65,8 @@ src/
 {
   id: 12, numero: "OF-0012", dia: 5, origen: "simulada" | "manual",
   cliente: { nombre, nit, direccion, contacto },
-  tipo: "Instalación" | "Reparación",
+  tipo: "Mantenimiento correctivo" | "Mantenimiento preventivo",
+  tecnico,                          // quien levantó el requerimiento (1 requerimiento = 1 oferta)
   tecnico, fechaVisita,
   items: [{ descripcion, cantidad, precio }],
   horas: 16,
@@ -104,22 +105,35 @@ horasVendidas  = Σ horas (Aceptada)
 `simularDia(ofertas, dia, variables, rng = Math.random)` devuelve nuevas ofertas:
 1. Resolver ofertas `Enviada` con ≥ 2 días de antigüedad: `rng() < probCierre` → Aceptada, si no Rechazada.
 2. Crear `visitasDia` ofertas nuevas (±1 aleatorio, mínimo 0):
-   - tipo: `rng() < pctInstalacion` → Instalación, si no Reparación.
-   - Instalación: 1 equipo + 3–5 materiales, 40–120 h.
-   - Reparación: 1–3 repuestos distintos (cantidad 1–2), 4–24 h.
+   - Cada oferta representa un requerimiento levantado por un técnico y cotizado por el asesor comercial.
+   - tipo: `rng() < pctPreventivo` → Mantenimiento preventivo, si no Mantenimiento correctivo.
+   - Correctivo: 1–3 repuestos distintos (cantidad 1–2), 4–24 h.
+   - Preventivo: 0–3 consumibles distintos (cantidad 1–2), 2–8 h.
+   - Catálogo: se quitaron los "Equipo" de instalación nueva (el sistema ya no cotiza instalaciones). Se conservan los "Material" (cables, guías, puertas, amortiguadores) para cotizar a mano reemplazos mayores dentro de un correctivo; la simulación no los usa.
    - C1 (margen) de cada oferta: C1 por defecto ± 10 puntos, entre 1 y 100.
-   - Calibración (Monte Carlo, 600 meses): con visitas 2/día, cierre 35 %, instalaciones 1 %, mediana del valor ganado ≈ $ 249 M; la mitad de los meses entre $ 207 y 312 M.
+   - Calibración (Monte Carlo, 600 meses de 30 días con `simularDia`, valor ganado de `kpis()`, en millones COP, cierre 35 %):
+
+     | Requerimientos/día | % preventivo | p25 | Mediana | p75 |
+     |---|---|---|---|---|
+     | 3 | 30 | 220 | 254 | 295 |
+     | 3 | 40 | 185 | 225 | 264 |
+     | 3 | 50 | 154 | 193 | 229 |
+     | **4** | **50** | **214** | **253** | **300** |
+     | 4 | 40 | 259 | 303 | 353 |
+     | 4 | 60 | 175 | 210 | 252 |
+
+     Defecto: 4 requerimientos/día y 50 % preventivo (mitad de las visitas son rutinas programadas en una sede de servicio). Mediana $ 253 M; la mitad de los meses entre $ 214 y 300 M. Antes (instalación/reparación) la mediana era ≈ $ 249 M.
    - cliente de una lista ficticia de nombres de edificios.
 
 `rng` inyectable para tests deterministas.
 
-`etapaOferta(oferta, dia)` es una regla derivada, no un estado guardado: Aceptada → Ganada, Rechazada → Perdida, Enviada → Pendiente el día de envío y En negociación desde el día siguiente. No cambia `simularDia` ni los datos guardados.
+`etapaOferta(oferta, dia)` es una regla derivada, no un estado guardado: Aceptada → Aprobada, Rechazada → Rechazada, Enviada → Enviada el día de envío y En negociación desde el día siguiente. `etiquetaEstado` muestra Aceptada como Aprobada en los exportes. No cambia `simularDia` ni los datos guardados.
 
 `useSimulacion` maneja `dia`, `corriendo` y un `setInterval` con `velocidad × 1000` ms. Para al llegar a 30.
 
 ## Persistencia
 
-`localStorage` guarda `variables`, `ofertas`, `dia`, `tema` y `mesAnterior`. Reinicio guarda las ofertas simuladas en `mesAnterior` (`{ dia, ofertas }`, solo el último mes) y luego las borra del mes actual.
+`localStorage` guarda `variables` (clave `elevia.variables.v3`: los defectos cambiaron, los de v2 no se reutilizan), `ofertas`, `dia`, `tema` y `mesAnterior`. Al cargar, `migrarOfertas` pasa las ofertas viejas de Reparación o Instalación a Mantenimiento correctivo. Reinicio guarda las ofertas simuladas en `mesAnterior` (`{ dia, ofertas }`, solo el último mes) y luego las borra del mes actual.
 
 ## Analítica (`analitica.js`)
 

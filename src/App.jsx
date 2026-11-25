@@ -14,7 +14,7 @@ import PanelVariables from './components/PanelVariables'
 import TablaOfertas from './components/TablaOfertas'
 import FormOferta from './components/FormOferta'
 import { useSimulacion } from './hooks/useSimulacion'
-import { simularDia, TECNICOS } from './lib/simulacion'
+import { simularDia, migrarOfertas, TECNICOS } from './lib/simulacion'
 import { VARIABLES_DEFECTO, kpis, serieDiaria, valorPorTipo, topItems } from './lib/calculos'
 import {
   rangoPeriodo, filtrarOfertas, serieKpi, embudo, mapaCalor, rankingTecnicos, topClientes, pronostico, alertas,
@@ -39,13 +39,14 @@ function guardarLocal(clave, valor) {
 }
 
 export default function App() {
-  const [variables, setVariables] = useState(() => ({ ...VARIABLES_DEFECTO, ...leer('elevia.variables.v2', {}) }))
-  const [ofertas, setOfertas] = useState(() => {
-    const o = leer('elevia.ofertas', [])
-    return Array.isArray(o) ? o : []
-  })
+  // v3: defectos recalibrados para mantenimiento correctivo / preventivo (los guardados en v2 no aplican).
+  const [variables, setVariables] = useState(() => ({ ...VARIABLES_DEFECTO, ...leer('elevia.variables.v3', {}) }))
+  const [ofertas, setOfertas] = useState(() => migrarOfertas(leer('elevia.ofertas', [])))
   // Mes anterior: al reiniciar se guardan las ofertas simuladas del mes que termina.
-  const [mesAnterior, setMesAnterior] = useState(() => leer('elevia.mesAnterior', null))
+  const [mesAnterior, setMesAnterior] = useState(() => {
+    const m = leer('elevia.mesAnterior', null)
+    return m?.ofertas ? { ...m, ofertas: migrarOfertas(m.ofertas) } : null
+  })
   const [tema, setTema] = useState(() => (document.documentElement.classList.contains('dark') ? 'oscuro' : 'claro'))
   const [periodo, setPeriodo] = useState('mes')
   const [tipo, setTipo] = useState('')
@@ -54,7 +55,7 @@ export default function App() {
   const [formAbierto, setFormAbierto] = useState(false)
   const [configAbierta, setConfigAbierta] = useState(false)
 
-  useEffect(() => guardarLocal('elevia.variables.v2', variables), [variables])
+  useEffect(() => guardarLocal('elevia.variables.v3', variables), [variables])
   useEffect(() => guardarLocal('elevia.ofertas', ofertas), [ofertas])
   useEffect(() => guardarLocal('elevia.mesAnterior', mesAnterior), [mesAnterior])
   useEffect(() => {

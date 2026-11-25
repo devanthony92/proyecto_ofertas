@@ -2,7 +2,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, T
 import { Doughnut, Bar } from 'react-chartjs-2'
 import Card, { Vacio } from './Card'
 import { paleta, tooltipBase } from './chartTema'
-import { formatoCOP } from '../lib/calculos'
+import { formatoCOP, TIPOS } from '../lib/calculos'
 import { formatoCompacto, formatoPct } from '../lib/formato'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip)
@@ -10,15 +10,14 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip)
 // Mezcla por tipo de trabajo y top 5 de ítems más ofertados.
 export default function Graficas({ porTipo, top, tema }) {
   const p = paleta(tema)
-  const inst = porTipo['Instalación']
-  const rep = porTipo['Reparación']
-  const total = inst + rep
+  const [corr, prev] = TIPOS.map((t) => porTipo[t])
+  const total = corr + prev
   const dona = {
-    labels: ['Instalación', 'Reparación'],
-    datasets: [{ data: [inst, rep], backgroundColor: [p.primario, p.secundario], borderColor: p.superficie, borderWidth: 3, hoverOffset: 4 }],
+    labels: TIPOS,
+    datasets: [{ data: [corr, prev], backgroundColor: [p.primario, p.secundario], borderColor: p.superficie, borderWidth: 3, hoverOffset: 4 }],
   }
   const barras = {
-    labels: top.map((t) => (t.descripcion.length > 30 ? t.descripcion.slice(0, 29) + '…' : t.descripcion)),
+    labels: top.map((t) => t.descripcion),
     datasets: [{ label: 'Cantidad', data: top.map((t) => t.cantidad), backgroundColor: p.primario, borderRadius: 4, barThickness: 14 }],
   }
   return (
@@ -43,7 +42,7 @@ export default function Graficas({ porTipo, top, tema }) {
               </div>
             </div>
             <ul className="min-w-0 flex-1 space-y-3 text-sm">
-              {[['Instalación', inst, p.primario], ['Reparación', rep, p.secundario]].map(([t, v, c]) => (
+              {[[TIPOS[0], corr, p.primario], [TIPOS[1], prev, p.secundario]].map(([t, v, c]) => (
                 <li key={t}>
                   <span className="flex items-center gap-2 text-texto-2">
                     <span className="size-2.5 rounded-sm" style={{ background: c }} aria-hidden="true" />
@@ -73,7 +72,19 @@ export default function Graficas({ porTipo, top, tema }) {
                 plugins: { legend: { display: false }, tooltip: { ...tooltipBase(p), callbacks: { title: (i) => top[i[0].dataIndex].descripcion, label: (c) => ` ${c.parsed.x} unidades` } } },
                 scales: {
                   x: { grid: { color: p.rejilla }, border: { display: false }, beginAtZero: true, ticks: { precision: 0, color: p.texto } },
-                  y: { grid: { display: false }, border: { display: false }, ticks: { color: p.texto } },
+                  y: {
+                    grid: { display: false },
+                    border: { display: false },
+                    ticks: {
+                      color: p.texto,
+                      // recorta según el ancho disponible para que la etiqueta no se corte en móvil
+                      callback(v) {
+                        const t = this.getLabelForValue(v)
+                        const max = this.chart.width < 420 ? 15 : 28
+                        return t.length > max ? t.slice(0, max - 1) + '…' : t
+                      },
+                    },
+                  },
                 },
               }}
             />

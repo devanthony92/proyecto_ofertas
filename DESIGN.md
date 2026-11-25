@@ -31,7 +31,7 @@ La paleta la fijó el usuario. Cada token existe en claro y en oscuro (`:root` y
 | `primario-suave` | 8 % de primario | 14 % | Fondo de iconos de KPI, chips activos, avatar |
 | `exito` / `exito-texto` | #10B981 / #047857 | #34D399 | Desempeño bueno, variación positiva, banda de meta |
 | `alerta` / `alerta-texto` | #F59E0B / #B45309 | #FBBF24 | En riesgo, pausa, alertas automáticas |
-| `critico` / `critico-texto` | #DC2626 / #B91C1C | #F87171 | Bajo meta, variación negativa, perdidas, errores, línea de meta mínima |
+| `critico` / `critico-texto` | #DC2626 / #B91C1C | #F87171 | Bajo meta, variación negativa, rechazadas, errores, línea de meta mínima |
 
 Los colores de estado tienen una variante `-texto` porque #10B981 y #F59E0B no llegan a 4,5:1 sobre blanco: el color base se usa en puntos, barras e iconos; la variante oscura en texto. Los chips de estado usan el color al 10 % de fondo.
 
@@ -63,7 +63,7 @@ Los colores de estado tienen una variante `-texto` porque #10B981 y #F59E0B no l
 
 **Campos**: `.campo` 36 px, borde fuerte, foco con borde primario y halo `primario-suave` de 3 px.
 
-**Chips de etapa**: píldora con fondo al 10 %: Pendiente gris, En negociación azul, Ganada verde, Perdida rojo.
+**Chips de etapa**: píldora con fondo al 10 %: Enviada gris, En negociación azul, Aprobada verde, Rechazada rojo.
 
 **Listas con barra** (ranking, top clientes, funnel): fila con nombre y cifra, barra de 6–8 px sobre pista `sutil`, detalle en 12 px.
 

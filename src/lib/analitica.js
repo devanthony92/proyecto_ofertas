@@ -9,7 +9,7 @@ export const PERIODOS = [
   ['7', 'Últimos 7 días'],
 ]
 
-export const ETAPAS = ['Pendiente', 'En negociación', 'Ganada', 'Perdida']
+export const ETAPAS = ['Enviada', 'En negociación', 'Aprobada', 'Rechazada']
 
 // Ventana de días del período elegido y la ventana anterior del mismo largo.
 // "mes" no tiene ventana anterior dentro del mes: se compara contra el mes anterior guardado.
@@ -52,12 +52,12 @@ export function variacion(actual, anterior) {
 }
 
 export function embudo(ofertas, dia) {
-  const r = { creadas: ofertas.length, 'Pendiente': 0, 'En negociación': 0, 'Ganada': 0, 'Perdida': 0 }
+  const r = { creadas: ofertas.length, 'Enviada': 0, 'En negociación': 0, 'Aprobada': 0, 'Rechazada': 0 }
   for (const o of ofertas) r[etapaOferta(o, dia)]++
   return r
 }
 
-// Ofertas creadas por técnico y día: mapa de calor de actividad comercial.
+// Requerimientos levantados por técnico y día (1 requerimiento = 1 oferta): mapa de calor.
 export function mapaCalor(ofertas, diaMax = 30, base = []) {
   const nombres = [...base]
   for (const o of ofertas) {
@@ -94,7 +94,7 @@ function agrupar(ofertas, clave) {
   return [...mapa.values()].map((g) => ({ ...g, tasa: g.decididas ? g.aceptadas / g.decididas : 0 }))
 }
 
-// Ranking de técnicos (quienes visitan y arman la oferta) por valor ganado.
+// Ranking de técnicos por el valor ganado de las ofertas que salen de sus requerimientos.
 export function rankingTecnicos(ofertas) {
   return agrupar(ofertas, (o) => o.tecnico || 'Sin asignar').sort((a, b) => b.ganado - a.ganado || b.ofertas - a.ofertas)
 }

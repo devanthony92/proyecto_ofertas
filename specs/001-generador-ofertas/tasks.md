@@ -56,3 +56,8 @@ Marcar `[x]` al terminar. Una tarea = un commit pequeño.
 - [x] T39 Paneles: funnel, mapa de calor, ranking de técnicos, top clientes, pronóstico, conclusiones y alertas
 - [x] T40 Tabla con etapa, técnico y búsqueda; modales y PDF con la nueva paleta
 - [x] T41 `DESIGN.md`, `PRODUCT.md`, README y verificación a 1440 / 1024 / 375 px en claro y oscuro
+- [x] T42 Solo dos tipos de trabajo: Mantenimiento correctivo y preventivo (datos, formulario, filtros, dona, tests); migración de ofertas viejas
+- [x] T43 Catálogo sin equipos de instalación nueva; categoría Consumible para preventivo
+- [x] T44 Variable "% preventivo" y recalibración Monte Carlo (4 requerimientos/día, 50 % preventivo → mediana $ 253 M)
+- [x] T45 Flujo requerimiento → oferta: el técnico levanta el requerimiento y el asesor comercial elabora la oferta (textos de UI, spec, PRODUCT)
+- [x] T46 Etapas visibles: Enviada, En negociación, Aprobada, Rechazada (funnel, tabla, filtro, KPIs, exportes)

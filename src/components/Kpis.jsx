@@ -109,9 +109,9 @@ export default function Kpis({ k, prev, serie, comparado, variables, dias }) {
     : { nivel: 'critico', texto: 'Por debajo de la meta' }
   const esperadas = variables.visitasDia * dias
   const ofertasNivel = !dias || !esperadas ? null
-    : k.ofertas >= esperadas * 0.9 ? { nivel: 'ok', texto: 'Ritmo de visitas esperado' }
-    : k.ofertas >= esperadas * 0.7 ? { nivel: 'alerta', texto: 'Ritmo de visitas bajo' }
-    : { nivel: 'critico', texto: 'Ritmo de visitas muy bajo' }
+    : k.ofertas >= esperadas * 0.9 ? { nivel: 'ok', texto: 'Ritmo de requerimientos esperado' }
+    : k.ofertas >= esperadas * 0.7 ? { nivel: 'alerta', texto: 'Ritmo de requerimientos bajo' }
+    : { nivel: 'critico', texto: 'Ritmo de requerimientos muy bajo' }
   const tasaNivel = !decididas ? null
     : k.tasaCierre >= 0.5 ? { nivel: 'ok', texto: 'Cierre saludable' }
     : k.tasaCierre >= 0.3 ? { nivel: 'alerta', texto: 'Cierre por vigilar' }
@@ -123,19 +123,19 @@ export default function Kpis({ k, prev, serie, comparado, variables, dias }) {
 
   const celdas = [
     { label: 'Ofertas generadas', icono: FileText, valor: String(n(k.ofertas)), serie: s('ofertas'), variacion: delta(k.ofertas, prev?.ofertas), desempeno: ofertasNivel,
-      ayuda: `Ofertas creadas en el período (simuladas y manuales). Ritmo esperado: ${variables.visitasDia} visitas por día.` },
+      ayuda: `Ofertas elaboradas por el asesor comercial a partir de los requerimientos de los técnicos (simuladas y manuales). Ritmo esperado: ${variables.visitasDia} requerimientos por día.` },
     { label: 'Valor ofertado', icono: Briefcase, valor: formatoCompacto(k.valorOfertado), completo: formatoCOP(k.valorOfertado), serie: s('valorOfertado'), variacion: delta(k.valorOfertado, prev?.valorOfertado),
       ayuda: 'Suma del total con IVA de todas las ofertas del período, sin importar su estado.' },
     { label: 'Valor ganado', icono: Trophy, valor: formatoCompacto(k.valorGanado), completo: formatoCOP(k.valorGanado), serie: s('valorGanado'), variacion: delta(k.valorGanado, prev?.valorGanado), desempeno: ganadoNivel,
-      ayuda: `Total con IVA de las ofertas aceptadas. Es la facturación. Meta mínima del mes: $ ${variables.metaMin} M, prorrateada a los días del período.` },
+      ayuda: `Total con IVA de las ofertas aprobadas. Es la facturación. Meta mínima del mes: $ ${variables.metaMin} M, prorrateada a los días del período.` },
     { label: 'Tasa de cierre', icono: Target, valor: formatoPct(k.tasaCierre), serie: s('tasaCierre'), variacion: delta(k.tasaCierre, prev?.tasaCierre, true), desempeno: tasaNivel,
-      ayuda: 'Aceptadas ÷ (aceptadas + rechazadas). Las ofertas aún abiertas no cuentan. Variación en puntos porcentuales (pp).' },
+      ayuda: 'Aprobadas ÷ (aprobadas + rechazadas). Las ofertas aún abiertas no cuentan. Variación en puntos porcentuales (pp).' },
     { label: 'C1 promedio', icono: Percent, valor: `${n(k.c1Promedio).toLocaleString('es-CO', { maximumFractionDigits: 1 })} %`, serie: s('c1Promedio'), variacion: delta(k.c1Promedio / 100, prev ? prev.c1Promedio / 100 : null, true), desempeno: c1Nivel,
       ayuda: 'Promedio simple del margen de ganancia C1 (%) de las ofertas del período.' },
     { label: 'Margen bruto ganado', icono: Coins, valor: formatoCompacto(k.margenGanado), completo: formatoCOP(k.margenGanado), serie: s('margenGanado'), variacion: delta(k.margenGanado, prev?.margenGanado),
-      ayuda: 'Margen C1 en pesos (subtotal − costo) de las ofertas aceptadas, antes de IVA.' },
+      ayuda: 'Margen C1 en pesos (subtotal − costo) de las ofertas aprobadas, antes de IVA.' },
     { label: 'Horas vendidas', icono: Clock, valor: `${n(k.horasVendidas).toLocaleString('es-CO')} h`, serie: s('horasVendidas'), variacion: delta(k.horasVendidas, prev?.horasVendidas),
-      ayuda: 'Horas de mano de obra de las ofertas aceptadas.' },
+      ayuda: 'Horas de mano de obra de las ofertas aprobadas.' },
   ]
   return (
     <section aria-label="Indicadores clave">
