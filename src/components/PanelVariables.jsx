@@ -41,24 +41,24 @@ export default function PanelVariables({ abierto, variables, onChange, onClose }
       aria-labelledby="config-titulo"
       onClose={onClose}
       onClick={(e) => e.target === ref.current && onClose()}
-      className="placa m-auto w-[min(32rem,calc(100%-2rem))] p-0 text-acero-900 backdrop:bg-acero-900/50"
+      className="card m-auto w-[min(32rem,calc(100%-2rem))] p-0 text-texto backdrop:bg-[#0b1120]/55"
     >
-      <div className="flex items-center justify-between border-b border-acero-300 px-5 py-4">
-        <h2 id="config-titulo" className="font-display text-xl font-semibold">Configuración</h2>
-        <button type="button" className="btn btn-sm" aria-label="Cerrar configuración" onClick={onClose}>
+      <div className="flex items-center justify-between border-b border-borde px-5 py-4">
+        <h2 id="config-titulo" className="text-lg font-semibold tracking-tight">Configuración</h2>
+        <button type="button" className="btn-icono" aria-label="Cerrar configuración" onClick={onClose}>
           <X size={18} aria-hidden="true" />
         </button>
       </div>
       <div className="max-h-[70vh] overflow-y-auto px-5 py-4">
-        <p className="mb-4 text-sm text-acero-600">
+        <p className="mb-4 text-sm text-texto-2">
           Los valores por defecto dejan la facturación simulada del mes (valor ganado) alrededor de
           $ 200 a 300 millones, el promedio de una sede de servicio.
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           {CAMPOS.map(([k, label, unidad, pct]) => (
             <div key={k}>
-              <label htmlFor={`v-${k}`} className="mb-1 block text-sm font-medium text-acero-700">
-                {label} <span className="font-normal text-acero-500">({unidad})</span>
+              <label htmlFor={`v-${k}`} className="mb-1 block text-sm font-medium text-texto-2">
+                {label} <span className="font-normal text-texto-3">({unidad})</span>
               </label>
               <input
                 id={`v-${k}`}
@@ -75,7 +75,7 @@ export default function PanelVariables({ abierto, variables, onChange, onClose }
           ))}
         </div>
       </div>
-      <div className="flex justify-between gap-3 border-t border-acero-300 px-5 py-4">
+      <div className="flex justify-between gap-3 border-t border-borde px-5 py-4">
         <button type="button" className="btn" onClick={() => onChange({ ...VARIABLES_DEFECTO })}>
           Restaurar valores
         </button>

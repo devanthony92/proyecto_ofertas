@@ -1,66 +1,100 @@
-@import "@fontsource/barlow/400.css";
-@import "@fontsource/barlow/500.css";
-@import "@fontsource/barlow/600.css";
-@import "@fontsource/barlow-semi-condensed/500.css";
-@import "@fontsource/barlow-semi-condensed/600.css";
-@import "@fontsource/barlow-semi-condensed/700.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
 @import "tailwindcss";
 
 /*
-  Mundo: botonera de cabina y placa de capacidad.
-  Acero cepillado frío, texto grabado negro, ámbar solo para "activo / encendido".
+  Dirección: Enterprise SaaS ejecutivo (referencias: Power BI, Lightning, SAP Analytics Cloud, EcoStruxure).
+  Paleta y fuente fijadas por el usuario. Los tokens semánticos cambian con el tema (.dark en <html>).
 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --font-sans: "Barlow", system-ui, sans-serif;
-  --font-display: "Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* Acero */
-  --color-acero-50: #f4f6f7;
-  --color-acero-100: #e9edf0;
-  --color-acero-200: #d6dce1;
-  --color-acero-300: #bcc5cc;
-  --color-acero-400: #8f9aa4;
-  --color-acero-500: #66727d;
-  --color-acero-600: #4a545e;
-  --color-acero-700: #353d45;
-  --color-acero-800: #252b31;
-  --color-acero-900: #15191d;
+  --color-fondo: var(--fondo);
+  --color-superficie: var(--superficie);
+  --color-sutil: var(--sutil);
+  --color-borde: var(--borde);
+  --color-borde-fuerte: var(--borde-fuerte);
+  --color-texto: var(--texto);
+  --color-texto-2: var(--texto-2);
+  --color-texto-3: var(--texto-3);
 
-  /* Ámbar: anillo iluminado. Solo para estado activo / en curso. */
-  --color-ambar-300: #ffd27a;
-  --color-ambar-400: #f6b532;
-  --color-ambar-500: #e39b0b;
-  --color-ambar-700: #8a5a00;
+  --color-primario: var(--primario);
+  --color-primario-hover: var(--primario-hover);
+  --color-primario-suave: var(--primario-suave);
+  --color-exito: var(--exito);
+  --color-exito-texto: var(--exito-texto);
+  --color-alerta: var(--alerta);
+  --color-alerta-texto: var(--alerta-texto);
+  --color-critico: var(--critico);
+  --color-critico-texto: var(--critico-texto);
 
-  /* Estados de oferta */
-  --color-enviada: #2f6496;
-  --color-aceptada: #1d7448;
-  --color-rechazada: #b0291f;
+  --radius-card: 12px;
+  --radius-control: 8px;
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 1px 3px rgb(16 24 40 / 0.06);
+  --shadow-pop: 0 12px 32px -4px rgb(16 24 40 / 0.14), 0 4px 8px -2px rgb(16 24 40 / 0.06);
+}
 
-  /* Series de datos */
-  --color-serie-ofertado: #2f6496;
-  --color-serie-ganado: #1d7448;
-  --color-serie-instalacion: #252b31;
-  --color-serie-reparacion: #8f9aa4;
+:root {
+  --fondo: #f8fafc;
+  --superficie: #ffffff;
+  --sutil: #f1f5f9;
+  --borde: #e5e7eb;
+  --borde-fuerte: #d1d5db;
+  --texto: #111827;
+  --texto-2: #6b7280;
+  --texto-3: #9ca3af;
+  --primario: #0057b8;
+  --primario-hover: #004a9c;
+  --primario-suave: rgb(0 87 184 / 0.08);
+  --exito: #10b981;
+  --exito-texto: #047857;
+  --alerta: #f59e0b;
+  --alerta-texto: #b45309;
+  --critico: #dc2626;
+  --critico-texto: #b91c1c;
+  color-scheme: light;
+}
 
-  --radius-placa: 6px;
-  --shadow-placa: 0 1px 2px rgb(21 25 29 / 0.08), 0 2px 6px rgb(21 25 29 / 0.05);
-  --shadow-pulsador: inset 0 1px 0 rgb(255 255 255 / 0.6), 0 1px 2px rgb(21 25 29 / 0.25);
+.dark {
+  --fondo: #0b1120;
+  --superficie: #111a2c;
+  --sutil: #18233a;
+  --borde: #233049;
+  --borde-fuerte: #31415f;
+  --texto: #f1f5f9;
+  --texto-2: #9aa6b8;
+  --texto-3: #64748b;
+  --primario: #4d9bf0;
+  --primario-hover: #74b2f5;
+  --primario-suave: rgb(77 155 240 / 0.14);
+  --exito: #34d399;
+  --exito-texto: #34d399;
+  --alerta: #fbbf24;
+  --alerta-texto: #fbbf24;
+  --critico: #f87171;
+  --critico-texto: #f87171;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3);
+  color-scheme: dark;
 }
 
 @layer base {
   html {
-    background: var(--color-acero-100);
-    color: var(--color-acero-900);
+    background: var(--fondo);
+    color: var(--texto);
     font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
     -webkit-font-smoothing: antialiased;
   }
   ::selection {
-    background: var(--color-ambar-300);
-    color: var(--color-acero-900);
+    background: var(--primario);
+    color: #fff;
   }
   :focus-visible {
-    outline: 2px solid var(--color-ambar-500);
+    outline: 2px solid var(--primario);
     outline-offset: 2px;
   }
   table,
@@ -68,71 +102,129 @@
     font-variant-numeric: tabular-nums;
   }
   * {
-    scrollbar-color: var(--color-acero-400) transparent;
+    scrollbar-color: var(--borde-fuerte) transparent;
+    scrollbar-width: thin;
+  }
+  input,
+  select,
+  textarea {
+    caret-color: var(--primario);
   }
 }
 
 @layer components {
-  .placa {
-    background: var(--color-acero-50);
-    border: 1px solid var(--color-acero-300);
-    border-radius: var(--radius-placa);
-    box-shadow: var(--shadow-placa);
+  .card {
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+  .card-titulo {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--texto);
+  }
+  .card-sub {
+    font-size: 0.8125rem;
+    color: var(--texto-2);
   }
   .campo {
     width: 100%;
-    background: white;
-    border: 1px solid var(--color-acero-400);
-    border-radius: 4px;
-    padding: 0.4rem 0.6rem;
-    color: var(--color-acero-900);
+    background: var(--superficie);
+    border: 1px solid var(--borde-fuerte);
+    border-radius: var(--radius-control);
+    padding: 0.4rem 0.7rem;
+    color: var(--texto);
     min-height: 2.25rem;
+    font-size: 0.875rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
   }
-  .campo[aria-invalid="true"] { border-color: var(--color-rechazada); }
+  .campo:hover { border-color: var(--texto-3); }
+  .campo:focus { outline: none; border-color: var(--primario); box-shadow: 0 0 0 3px var(--primario-suave); }
+  .campo[aria-invalid="true"] { border-color: var(--critico); }
+  .campo[readonly] { background: var(--sutil); }
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.4rem;
+    gap: 0.45rem;
     min-height: 2.25rem;
-    padding: 0 0.85rem;
-    border-radius: 4px;
-    border: 1px solid var(--color-acero-400);
-    background: white;
-    color: var(--color-acero-900);
+    padding: 0 0.875rem;
+    border-radius: var(--radius-control);
+    border: 1px solid var(--borde-fuerte);
+    background: var(--superficie);
+    color: var(--texto);
+    font-size: 0.875rem;
     font-weight: 500;
+    white-space: nowrap;
     cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
   }
-  .btn:hover:not(:disabled) { background: var(--color-acero-100); }
+  .btn:hover:not(:disabled) { background: var(--sutil); }
   .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-  .btn-primario { background: var(--color-acero-900); border-color: var(--color-acero-900); color: white; }
-  .btn-primario:hover:not(:disabled) { background: var(--color-acero-700); }
-  .btn-sm { min-height: 2rem; padding: 0 0.5rem; }
-  .pulsador {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    background: transparent;
-    border: 0;
-    color: var(--color-acero-200);
-    font-size: 0.75rem;
-    cursor: pointer;
-  }
-  .pulsador > span:first-child {
-    display: grid;
+  .btn-primario { background: var(--primario); border-color: var(--primario); color: #fff; }
+  .btn-primario:hover:not(:disabled) { background: var(--primario-hover); border-color: var(--primario-hover); }
+  .dark .btn-primario { color: #0b1120; }
+  .btn-sm { min-height: 2rem; padding: 0 0.55rem; font-size: 0.8125rem; }
+  .btn-icono {
+    display: inline-grid;
     place-items: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 9999px;
-    background: linear-gradient(var(--color-acero-100), var(--color-acero-200));
-    color: var(--color-acero-900);
-    box-shadow: var(--shadow-pulsador);
-    transition: box-shadow 0.15s, transform 0.08s;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-control);
+    color: var(--texto-2);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
   }
-  .pulsador:active:not(:disabled) > span:first-child { transform: translateY(1px); }
-  .pulsador:disabled { opacity: 0.45; cursor: not-allowed; }
-  .pulsador[aria-pressed="true"] > span:first-child {
-    box-shadow: var(--shadow-pulsador), 0 0 0 2px var(--color-ambar-400), 0 2px 10px rgb(246 181 50 / 0.45);
+  .btn-icono:hover:not(:disabled) { background: var(--sutil); color: var(--texto); }
+  .btn-icono:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-icono[aria-pressed="true"] { background: var(--primario-suave); color: var(--primario); }
+
+  /* Tooltip accesible: aparece con hover y con foco de teclado */
+  .tip { position: relative; display: inline-flex; }
+  .tip > [role="tooltip"] {
+    position: absolute;
+    z-index: 30;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    width: max-content;
+    max-width: 16rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 8px;
+    background: #111827;
+    color: #f9fafb;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.45;
+    text-align: left;
+    box-shadow: var(--shadow-pop);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 4px);
+    transition: opacity 0.15s, transform 0.15s;
   }
+  .dark .tip > [role="tooltip"] { background: #e5e7eb; color: #111827; }
+  .tip:hover > [role="tooltip"],
+  .tip:focus-within > [role="tooltip"] { opacity: 1; transform: translate(-50%, 0); }
+  /* Variante anclada a la tarjeta contenedora (que debe ser relative): nunca se sale de pantalla */
+  .tip-card { position: static; }
+  .tip-card > [role="tooltip"] { top: 3.25rem; bottom: auto; left: 0.75rem; right: 0.75rem; width: auto; max-width: none; transform: translateY(-4px); }
+  .tip-card:hover > [role="tooltip"],
+  .tip-card:focus-within > [role="tooltip"] { transform: translateY(0); }
+
+  .popover {
+    position: absolute;
+    z-index: 40;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-pop);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
 }

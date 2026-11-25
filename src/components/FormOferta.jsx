@@ -13,9 +13,9 @@ const vacio = () => ({
 function Campo({ id, label, error, children }) {
   return (
     <div>
-      <label htmlFor={id} className="mb-1 block text-sm font-medium text-acero-700">{label}</label>
+      <label htmlFor={id} className="mb-1 block text-sm font-medium text-texto-2">{label}</label>
       {children}
-      {error && <p className="mt-1 text-sm text-rechazada" role="alert">{error}</p>}
+      {error && <p className="mt-1 text-sm text-critico-texto" role="alert">{error}</p>}
     </div>
   )
 }
@@ -94,16 +94,16 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center sm:p-6">
-      <div className="absolute inset-0 bg-acero-900/50" onClick={onClose} aria-hidden="true" />
-      <aside role="dialog" aria-modal="true" aria-labelledby="h-form" className="relative flex h-full w-full flex-col bg-acero-50 shadow-2xl sm:h-auto sm:max-h-[90vh] sm:max-w-3xl sm:rounded-[var(--radius-placa)] sm:border sm:border-acero-300">
-        <div className="flex items-center justify-between border-b border-acero-300 px-5 py-4">
-          <h2 id="h-form" className="font-display text-xl font-semibold">Nuevo requerimiento</h2>
-          <button type="button" className="btn btn-sm" onClick={onClose} aria-label="Cerrar formulario"><X size={18} aria-hidden="true" /></button>
+      <div className="absolute inset-0 bg-[#0b1120]/55" onClick={onClose} aria-hidden="true" />
+      <aside role="dialog" aria-modal="true" aria-labelledby="h-form" className="relative flex h-full w-full flex-col bg-superficie shadow-2xl sm:h-auto sm:max-h-[90vh] sm:max-w-3xl sm:rounded-[var(--radius-card)] sm:border sm:border-borde">
+        <div className="flex items-center justify-between border-b border-borde px-5 py-4">
+          <h2 id="h-form" className="text-lg font-semibold tracking-tight">Nuevo requerimiento</h2>
+          <button type="button" className="btn-icono" onClick={onClose} aria-label="Cerrar formulario"><X size={18} aria-hidden="true" /></button>
         </div>
 
         <div className="flex-1 space-y-5 overflow-y-auto p-5">
           <fieldset className="grid gap-3 sm:grid-cols-2">
-            <legend className="mb-2 font-display text-base font-semibold">Cliente</legend>
+            <legend className="mb-2 text-sm font-semibold text-texto">Cliente</legend>
             <div className="sm:col-span-2">
               <Campo id="o-nombre" label="Nombre del cliente" error={errores.nombre}>
                 <input id="o-nombre" className="campo" aria-invalid={!!errores.nombre} value={f.nombre} onChange={(e) => set('nombre', e.target.value)} />
@@ -117,16 +117,16 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
           </fieldset>
 
           <fieldset className="grid gap-3 sm:grid-cols-2">
-            <legend className="mb-2 font-display text-base font-semibold">Visita</legend>
+            <legend className="mb-2 text-sm font-semibold text-texto">Visita</legend>
             <div className="sm:col-span-2" role="group" aria-label="Tipo de trabajo">
-              <div className="grid grid-cols-2 overflow-hidden rounded border border-acero-400">
+              <div className="grid grid-cols-2 overflow-hidden rounded-lg border border-borde-fuerte">
                 {['Instalación', 'Reparación'].map((tp) => (
                   <button
                     key={tp}
                     type="button"
                     aria-pressed={f.tipo === tp}
                     onClick={() => set('tipo', tp)}
-                    className={`min-h-9 px-3 text-sm font-medium ${f.tipo === tp ? 'bg-acero-900 text-white' : 'bg-white text-acero-900 hover:bg-acero-100'}`}
+                    className={`min-h-9 px-3 text-sm font-medium ${f.tipo === tp ? 'bg-primario text-white dark:text-fondo' : 'bg-superficie text-texto hover:bg-sutil'}`}
                   >
                     {tp === 'Instalación' ? 'Instalación nueva' : 'Reparación'}
                   </button>
@@ -138,10 +138,10 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
           </fieldset>
 
           <fieldset>
-            <legend className="mb-2 font-display text-base font-semibold">Ítems</legend>
+            <legend className="mb-2 text-sm font-semibold text-texto">Ítems</legend>
             <div className="flex flex-wrap items-end gap-2">
               <div className="min-w-0 flex-1">
-                <label htmlFor="o-cat" className="mb-1 block text-sm font-medium text-acero-700">Ítem del catálogo</label>
+                <label htmlFor="o-cat" className="mb-1 block text-sm font-medium text-texto-2">Ítem del catálogo</label>
                 <select id="o-cat" className="campo" value={sel} onChange={(e) => setSel(e.target.value)}>
                   <option value="">Selecciona un ítem</option>
                   {CATEGORIAS.map((c) => (
@@ -156,15 +156,15 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
               <button type="button" className="btn" onClick={agregarCatalogo} disabled={!sel}><Plus size={16} aria-hidden="true" />Agregar</button>
               <button type="button" className="btn" onClick={agregarLibre}>Ítem libre</button>
             </div>
-            {errores.items && <p className="mt-2 text-sm text-rechazada" role="alert">{errores.items}</p>}
+            {errores.items && <p className="mt-2 text-sm text-critico-texto" role="alert">{errores.items}</p>}
 
             {f.items.length > 0 && (
               <ul className="mt-3 space-y-3">
                 {f.items.map((it, i) => (
-                  <li key={i} className="rounded border border-acero-300 bg-white p-3">
+                  <li key={i} className="rounded-lg border border-borde bg-superficie p-3">
                     <div className="flex items-end gap-2">
                       <div className="min-w-0 flex-1">
-                        <label htmlFor={`i-d-${i}`} className="mb-1 block text-xs font-medium text-acero-700">Descripción</label>
+                        <label htmlFor={`i-d-${i}`} className="mb-1 block text-xs font-medium text-texto-2">Descripción</label>
                         <input id={`i-d-${i}`} className="campo" readOnly={!it.libre} value={it.descripcion} onChange={(e) => setItem(i, 'descripcion', e.target.value)} />
                       </div>
                       <button type="button" className="btn btn-sm" aria-label={`Eliminar ítem ${i + 1}`} onClick={() => setF((p) => ({ ...p, items: p.items.filter((_, j) => j !== i) }))}>
@@ -173,15 +173,15 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
                     </div>
                     <div className="mt-2 grid grid-cols-3 gap-2">
                       <div>
-                        <label htmlFor={`i-c-${i}`} className="mb-1 block text-xs font-medium text-acero-700">Cantidad</label>
+                        <label htmlFor={`i-c-${i}`} className="mb-1 block text-xs font-medium text-texto-2">Cantidad</label>
                         <input id={`i-c-${i}`} type="number" min="1" className="campo tabular-nums" value={it.cantidad} onChange={(e) => setItem(i, 'cantidad', e.target.value)} />
                       </div>
                       <div>
-                        <label htmlFor={`i-p-${i}`} className="mb-1 block text-xs font-medium text-acero-700">Precio (COP)</label>
+                        <label htmlFor={`i-p-${i}`} className="mb-1 block text-xs font-medium text-texto-2">Precio (COP)</label>
                         <input id={`i-p-${i}`} type="number" min="0" className="campo tabular-nums" value={it.precio} onChange={(e) => setItem(i, 'precio', e.target.value)} />
                       </div>
                       <div>
-                        <span className="mb-1 block text-xs font-medium text-acero-700">Total</span>
+                        <span className="mb-1 block text-xs font-medium text-texto-2">Total</span>
                         <p className="flex min-h-9 items-center text-sm font-medium tabular-nums">{formatoCOP((Number(it.cantidad) || 0) * (Number(it.precio) || 0))}</p>
                       </div>
                     </div>
@@ -200,7 +200,7 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
             </Campo>
           </div>
 
-          <dl className="placa space-y-1.5 p-4 text-sm tabular-nums" aria-live="polite">
+          <dl className="card space-y-1.5 p-4 text-sm tabular-nums" aria-live="polite">
             {[
               ['Ítems', t.costoItems],
               ['Mano de obra', t.manoObra],
@@ -208,16 +208,16 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
               ['Subtotal', t.subtotal],
               [`IVA (${variables.iva} %)`, t.ivaValor],
             ].map(([k, v]) => (
-              <div key={k} className="flex justify-between"><dt className="text-acero-600">{k}</dt><dd>{formatoCOP(v)}</dd></div>
+              <div key={k} className="flex justify-between"><dt className="text-texto-2">{k}</dt><dd>{formatoCOP(v)}</dd></div>
             ))}
-            <div className="flex items-baseline justify-between border-t border-acero-300 pt-2">
-              <dt className="font-display text-base font-semibold">Total</dt>
-              <dd className="font-display text-2xl font-semibold">{formatoCOP(t.total)}</dd>
+            <div className="flex items-baseline justify-between border-t border-borde pt-2">
+              <dt className="text-base font-semibold">Total</dt>
+              <dd className="text-2xl font-semibold">{formatoCOP(t.total)}</dd>
             </div>
           </dl>
         </div>
 
-        <div className="flex flex-wrap justify-end gap-2 border-t border-acero-300 px-5 py-4">
+        <div className="flex flex-wrap justify-end gap-2 border-t border-borde px-5 py-4">
           <button type="button" className="btn" onClick={() => guardar(true)}>Guardar y descargar PDF</button>
           <button type="button" className="btn btn-primario" onClick={() => guardar(false)}>Guardar oferta</button>
         </div>

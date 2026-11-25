@@ -2,11 +2,12 @@ import { jsPDF } from 'jspdf'
 import { autoTable } from 'jspdf-autotable'
 import { formatoCOP, totalesOferta } from './calculos.js'
 
-const ACERO = [37, 43, 49]
-const TEXTO = [21, 25, 29]
-const REGLA = [188, 197, 204]
-const CABECERA = [233, 237, 240]
-const AMBAR = [227, 155, 11]
+// Paleta de marca (DESIGN.md): primario #0057B8, texto #111827, bordes #E5E7EB, fondo sutil #F1F5F9
+const PRIMARIO = [0, 87, 184]
+const TEXTO = [17, 24, 39]
+const REGLA = [229, 231, 235]
+const CABECERA = [241, 245, 249]
+const PRIMARIO_OSCURO = [0, 64, 138]
 
 function descargar(doc, nombre) {
   doc.save(nombre)
@@ -18,7 +19,7 @@ function hoy() {
 
 function banda(doc, titulo, subtitulo) {
   const w = doc.internal.pageSize.getWidth()
-  doc.setFillColor(...ACERO)
+  doc.setFillColor(...PRIMARIO)
   doc.rect(0, 0, w, 26, 'F')
   doc.setTextColor(255, 255, 255)
   doc.setFont('helvetica', 'bold')
@@ -27,7 +28,7 @@ function banda(doc, titulo, subtitulo) {
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(10)
   doc.text(subtitulo, 14, 20)
-  doc.setFillColor(...AMBAR)
+  doc.setFillColor(...PRIMARIO_OSCURO)
   doc.rect(0, 26, w, 0.8, 'F')
   doc.setTextColor(...TEXTO)
 }
