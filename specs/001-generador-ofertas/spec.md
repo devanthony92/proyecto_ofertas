@@ -43,8 +43,11 @@ Como asesor comercial quiero registrar el requerimiento que levantó el técnico
 Como asesor comercial quiero descargar la oferta en PDF para enviársela al cliente.
 
 **Criterios de aceptación**
-- [ ] El PDF incluye: encabezado de la empresa, número de oferta, fecha, datos del cliente, tipo de trabajo, tabla de ítems (descripción, cantidad, precio unitario, total), mano de obra, subtotal, IVA, total.
-- [ ] Incluye condiciones: validez 30 días, forma de pago 50% anticipo / 50% contra entrega.
+- [ ] El PDF tiene 3 páginas, con número de oferta, fecha y logo de la marca ficticia en cada una, y "Página n / N" al pie:
+  1. **Portada y carta**: título de la propuesta, foto de portada (`src/assets/portada-oferta.jpg`, sin logos de terceros; si falta, ilustración vectorial), datos del cliente, carta de presentación y firma del asesor.
+  2. **Oferta**: datos del cliente, tabla de ítems (descripción, cantidad, precio unitario, importe), mano de obra, precio neto, IVA, total y tabla de condiciones.
+  3. **Orden de pedido**: autorización con el valor, campos de firma, datos del firmante, contacto en sitio y sello.
+- [ ] Condiciones: tipo de trabajo, plazo, garantía (correctivo 1 año; preventivo 3 meses de mano de obra), pago 50 % anticipo / 50 % contra entrega, validez 30 días con fecha, impuestos y trabajo extra.
 - [ ] Montos en pesos colombianos (formato `$ 1.234.567`).
 - [ ] Se puede descargar desde el formulario y desde cada fila de la tabla.
 
