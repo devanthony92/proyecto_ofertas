@@ -1,5 +1,7 @@
 # Elevia Ofertas — Generador de ofertas para ascensores
 
+**Demo en vivo:** https://devanthony92.github.io/proyecto_ofertas/
+
 Después de una visita técnica, el técnico tiene en la mano una lista de equipos, materiales, repuestos y horas de mano de obra. Elevia Ofertas convierte esa lista en una oferta para el cliente, con totales calculados automáticamente (margen, IVA y total en pesos colombianos) y descargable en PDF en cuestión de minutos. El tablero simula un mes comercial completo para mostrar cómo se comportan las ofertas, el cierre y el margen día a día.
 
 > Aviso: la marca Elevia Ofertas, los clientes, el catálogo y todas las cifras son ficticios. Es un proyecto académico y no contiene datos reales de ninguna empresa.
