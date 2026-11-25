@@ -9,7 +9,6 @@ const PRIMARIO = [0, 87, 184]
 const TEXTO = [17, 24, 39]
 const REGLA = [229, 231, 235]
 const CABECERA = [241, 245, 249]
-const PRIMARIO_OSCURO = [0, 64, 138]
 const GRIS = [107, 114, 128]
 const FONDO = [248, 250, 252]
 
@@ -19,40 +18,6 @@ function descargar(doc, nombre) {
 
 function hoy() {
   return new Date().toISOString().slice(0, 10)
-}
-
-function banda(doc, titulo, subtitulo) {
-  const w = doc.internal.pageSize.getWidth()
-  doc.setFillColor(...PRIMARIO)
-  doc.rect(0, 0, w, 26, 'F')
-  doc.setTextColor(255, 255, 255)
-  doc.setFont('helvetica', 'bold')
-  doc.setFontSize(16)
-  doc.text(titulo, 14, 12)
-  doc.setFont('helvetica', 'normal')
-  doc.setFontSize(10)
-  doc.text(subtitulo, 14, 20)
-  doc.setFillColor(...PRIMARIO_OSCURO)
-  doc.rect(0, 26, w, 0.8, 'F')
-  doc.setTextColor(...TEXTO)
-}
-
-function pie(doc) {
-  const w = doc.internal.pageSize.getWidth()
-  const h = doc.internal.pageSize.getHeight()
-  doc.setDrawColor(...REGLA)
-  doc.setLineWidth(0.2)
-  doc.line(14, h - 14, w - 14, h - 14)
-  doc.setFont('helvetica', 'normal')
-  doc.setFontSize(8)
-  doc.setTextColor(90, 100, 108)
-  doc.text('Documento generado con Elevia Ofertas — datos simulados con fines académicos.', 14, h - 9)
-  doc.setTextColor(...TEXTO)
-}
-
-const estiloTabla = {
-  styles: { font: 'helvetica', fontSize: 9, textColor: TEXTO, lineColor: REGLA, lineWidth: 0.1, cellPadding: 2 },
-  headStyles: { fillColor: CABECERA, textColor: TEXTO, fontStyle: 'bold' },
 }
 
 // ---------- PDF de oferta: portada + oferta + orden de pedido ----------
@@ -91,16 +56,17 @@ function logo(doc, x, y, s = 12) {
   doc.setTextColor(...TEXTO)
 }
 
-// Encabezado de cada página: número y fecha a la izquierda, logo a la derecha.
-function encabezado(doc, oferta) {
+// Encabezado de cada página: dos líneas de referencia a la izquierda, logo a la derecha.
+function cabecera(doc, linea1, linea2) {
   const w = doc.internal.pageSize.getWidth()
   doc.setFont('helvetica', 'normal')
   doc.setFontSize(8.5)
   doc.setTextColor(...GRIS)
-  doc.text(`Oferta ${oferta.numero}`, M, 16)
-  doc.text(corta(fechaBase(oferta)), M, 20.5)
+  doc.text(linea1, M, 16)
+  doc.text(linea2, M, 20.5)
   logo(doc, w - M - 32, 10, 11)
 }
+const encabezado = (doc, oferta) => cabecera(doc, `Oferta ${oferta.numero}`, corta(fechaBase(oferta)))
 
 function piePaginas(doc) {
   const n = doc.getNumberOfPages()
@@ -432,46 +398,144 @@ export function pdfOferta(oferta) {
   descargar(construirPdfOferta(oferta), `oferta-${oferta.numero}.pdf`)
 }
 
+// ---------- PDF de reporte del mes (horizontal) ----------
+
+const VERDE = [16, 185, 129]
+const ROJO = [220, 38, 38]
+const COLOR_CONCLUSION = { alerta: ROJO, ok: VERDE, info: PRIMARIO }
+const millones = (v) =>
+  v >= 1e9 ? `$ ${(v / 1e9).toLocaleString('es-CO', { maximumFractionDigits: 2 })} MM` : `$ ${(v / 1e6).toLocaleString('es-CO', { maximumFractionDigits: 1 })} M`
+
+// Banda con la foto (sin deformar) y el título encima, sobre un velo oscuro.
+// La foto es más alta que la banda: lo que sobra se tapa con blanco; dibujar antes del encabezado.
+function bandaFoto(doc, x, y, w, h, titulo, subtitulo) {
+  const alto = w / (174 / 62) // proporción de portada-oferta.jpg
+  const sobra = (alto - h) / 2
+  if (portada) {
+    doc.addImage(portada, 'JPEG', x, y - sobra, w, alto)
+    doc.setFillColor(255, 255, 255)
+    doc.rect(0, y - sobra - 1, doc.internal.pageSize.getWidth(), sobra + 1, 'F')
+    doc.rect(0, y + h, doc.internal.pageSize.getWidth(), sobra + 1, 'F')
+  }
+  doc.saveGraphicsState()
+  doc.setGState(new doc.GState({ opacity: portada ? 0.6 : 1 }))
+  doc.setFillColor(8, 28, 70)
+  doc.rect(x, y, w, h, 'F')
+  doc.restoreGraphicsState()
+  doc.setFillColor(...PRIMARIO)
+  doc.rect(x, y + h - 1.2, w, 1.2, 'F')
+  doc.setTextColor(255, 255, 255)
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(22)
+  doc.text(titulo, x + 8, y + h / 2)
+  doc.setFont('helvetica', 'normal')
+  doc.setFontSize(10)
+  doc.text(subtitulo, x + 8, y + h / 2 + 7)
+  doc.setTextColor(...TEXTO)
+}
+
+function seccion(doc, texto, y) {
+  doc.setFillColor(...PRIMARIO)
+  doc.rect(M, y - 3.6, 1.2, 4.6, 'F')
+  doc.setFont('helvetica', 'bold')
+  doc.setFontSize(12)
+  doc.setTextColor(...TEXTO)
+  doc.text(texto, M + 3.5, y)
+}
+
 export function construirPdfReporte(ofertas, k, conclusiones = []) {
   const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'landscape' })
-  banda(doc, 'ELEVIA OFERTAS', 'Reporte del mes')
-  const kp = [
-    ['Ofertas', String(k.ofertas)],
-    ['Valor ofertado', formatoCOP(k.valorOfertado)],
-    ['Valor ganado', formatoCOP(k.valorGanado)],
-    ['Tasa de cierre', `${Math.round((k.tasaCierre || 0) * 100)}%`],
-    ['C1 promedio', `${k.c1Promedio.toLocaleString('es-CO', { maximumFractionDigits: 1 })} %`],
-    ['Margen ganado', formatoCOP(k.margenGanado)],
-    ['Horas vendidas', String(k.horasVendidas)],
-  ]
-  autoTable(doc, {
-    ...estiloTabla,
-    startY: 34,
-    head: [['Indicador', 'Valor']],
-    body: kp,
-    tableWidth: 90,
-    margin: { left: 14 },
-    columnStyles: { 1: { halign: 'right' } },
-  })
-  let y = doc.lastAutoTable.finalY + 8
-  doc.setFont('helvetica', 'bold')
-  doc.setFontSize(10)
-  doc.text('Conclusiones', 14, y)
-  doc.setFont('helvetica', 'normal')
-  conclusiones.forEach((c, i) => doc.text(`- ${c.texto}`, 14, y + 6 + i * 5.5))
-  y += 6 + conclusiones.length * 5.5 + 4
+  const w = doc.internal.pageSize.getWidth()
+  const ancho = w - 2 * M
+  const generado = new Date()
+  const cab = () => cabecera(doc, 'Reporte comercial del mes', `Generado el ${corta(generado)}`)
 
-  autoTable(doc, {
-    ...estiloTabla,
-    startY: y,
-    head: [['N°', 'Día', 'Cliente', 'Tipo', 'Total', 'Estado']],
-    body: ofertas.map((o) => [
-      o.numero, String(o.dia), o.cliente?.nombre || '', o.tipo, formatoCOP(totalesOferta(o).total), etiquetaEstado(o.estado),
-    ]),
-    columnStyles: { 4: { halign: 'right' } },
-    margin: { left: 14, right: 14, bottom: 18 },
-    didDrawPage: () => pie(doc),
+  bandaFoto(doc, M, 28, ancho, 34, 'Reporte comercial del mes', `Mantenimiento correctivo y preventivo · ${ofertas.length} ofertas · generado el ${larga(generado)}`)
+  cab()
+
+  // Tarjetas KPI
+  const tarjetas = [
+    ['Ofertas', String(k.ofertas)],
+    ['Valor ofertado', millones(k.valorOfertado)],
+    ['Valor ganado', millones(k.valorGanado)],
+    ['Tasa de cierre', `${Math.round((k.tasaCierre || 0) * 100)} %`],
+    ['C1 promedio', `${(k.c1Promedio || 0).toLocaleString('es-CO', { maximumFractionDigits: 1 })} %`],
+    ['Margen ganado', millones(k.margenGanado)],
+    ['Horas vendidas', `${(k.horasVendidas || 0).toLocaleString('es-CO')} h`],
+  ]
+  let y = 70
+  const gap = 4
+  const tw = (ancho - gap * (tarjetas.length - 1)) / tarjetas.length
+  tarjetas.forEach(([etq, valor], i) => {
+    const x = M + i * (tw + gap)
+    doc.setFillColor(...FONDO)
+    doc.setDrawColor(...REGLA)
+    doc.setLineWidth(0.3)
+    doc.roundedRect(x, y, tw, 22, 3, 3, 'FD')
+    doc.setFillColor(...PRIMARIO)
+    doc.rect(x + 4, y + 4, 6, 0.9, 'F')
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(8)
+    doc.setTextColor(...GRIS)
+    doc.text(etq, x + 4, y + 10)
+    doc.setFont('helvetica', 'bold')
+    doc.setFontSize(13)
+    doc.setTextColor(...TEXTO)
+    doc.text(valor, x + 4, y + 17.5)
   })
+
+  // Conclusiones con marcador de color por tipo
+  y += 34
+  seccion(doc, 'Conclusiones y alertas', y)
+  y += 7
+  doc.setFont('helvetica', 'normal')
+  doc.setFontSize(9.5)
+  conclusiones.forEach((c) => {
+    const l = doc.splitTextToSize(c.texto, ancho - 8)
+    doc.setFillColor(...(COLOR_CONCLUSION[c.tipo] || PRIMARIO))
+    doc.circle(M + 1.5, y - 1.2, 1.2, 'F')
+    doc.setTextColor(...TEXTO)
+    doc.text(l, M + 6, y)
+    y += l.length * 4.2 + 2.2
+  })
+  if (!conclusiones.length) {
+    doc.setTextColor(...GRIS)
+    doc.text('Sin conclusiones por ahora.', M, y)
+    y += 6
+  }
+
+  // Tabla de ofertas
+  y += 6
+  seccion(doc, 'Detalle de ofertas', y)
+  const totalOfertado = ofertas.reduce((s, o) => s + totalesOferta(o).total, 0)
+  autoTable(doc, {
+    startY: y + 4,
+    head: [['N°', 'Día', 'Cliente', 'Tipo', 'Técnico', 'Total', 'Estado']],
+    body: ofertas.map((o) => [
+      o.numero, String(o.dia ?? ''), o.cliente?.nombre || '', o.tipo || '', o.tecnico || '', formatoCOP(totalesOferta(o).total), etiquetaEstado(o.estado),
+    ]),
+    foot: ofertas.length ? [['', '', '', '', 'Total ofertado', formatoCOP(totalOfertado), '']] : undefined,
+    showFoot: 'lastPage',
+    theme: 'plain',
+    margin: { top: 30, left: M, right: M, bottom: 22 },
+    styles: { font: 'helvetica', fontSize: 8.5, textColor: TEXTO, cellPadding: 2 },
+    headStyles: { fillColor: PRIMARIO, textColor: [255, 255, 255], fontStyle: 'bold' },
+    footStyles: { fillColor: CABECERA, fontStyle: 'bold' },
+    alternateRowStyles: { fillColor: FONDO },
+    columnStyles: { 1: { halign: 'right', cellWidth: 12 }, 5: { halign: 'right' } },
+    didParseCell: (d) => {
+      if (d.column.index === 1 || d.column.index === 5) d.cell.styles.halign = 'right'
+      if (d.section === 'body' && d.column.index === 6) {
+        const e = ofertas[d.row.index]?.estado
+        if (e === 'Aceptada') d.cell.styles.textColor = [4, 120, 87]
+        if (e === 'Rechazada') d.cell.styles.textColor = ROJO
+        d.cell.styles.fontStyle = 'bold'
+      }
+    },
+    didDrawPage: (d) => d.pageNumber > 1 && cab(),
+  })
+
+  piePaginas(doc)
   return doc
 }
 

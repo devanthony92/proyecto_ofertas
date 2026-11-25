@@ -131,7 +131,7 @@ Como jefe comercial quiero cambiar los supuestos del negocio y ver el efecto al 
 ### HU-8 Exportar reportes
 
 - [ ] **Excel**: hojas *Ofertas*, *Ítems* y *KPIs*.
-- [ ] **PDF reporte del mes**: KPIs, tabla de ofertas y conclusiones.
+- [ ] **PDF reporte del mes** (horizontal, mismo estilo del PDF de oferta): banda con la foto de portada, tarjetas KPI, conclusiones con marcador de color (alerta, ok, info) y tabla de ofertas con estado en color y total ofertado al final.
 - [ ] Nombre de archivo con fecha, p. ej. `reporte-ofertas-2026-11-25.xlsx`.
 
 ### HU-9 Leer conclusiones automáticas

@@ -62,3 +62,4 @@ Marcar `[x]` al terminar. Una tarea = un commit pequeño.
 - [x] T45 Flujo requerimiento → oferta: el técnico levanta el requerimiento y el asesor comercial elabora la oferta (textos de UI, spec, PRODUCT)
 - [x] T46 Etapas visibles: Enviada, En negociación, Aprobada, Rechazada (funnel, tabla, filtro, KPIs, exportes)
 - [x] T47 PDF de oferta de 3 páginas (portada con foto, oferta con condiciones, orden de pedido)
+- [x] T48 PDF de reporte con el estilo del PDF de oferta (banda con foto, tarjetas KPI, conclusiones con color, tabla con estado en color)
