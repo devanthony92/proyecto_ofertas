@@ -15,7 +15,7 @@ import { formatoCOP } from '../lib/calculos'
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, ArcElement, Tooltip, Legend)
 ChartJS.defaults.font.family = 'Barlow, system-ui, sans-serif'
 ChartJS.defaults.color = '#4a545e'
-ChartJS.defaults.animation = { duration: 300 }
+ChartJS.defaults.animation.duration = 300 // modificar, no reemplazar: reemplazar el objeto rompe las actualizaciones
 
 const GRID = '#d6dce1'
 const compacto = (v) =>
