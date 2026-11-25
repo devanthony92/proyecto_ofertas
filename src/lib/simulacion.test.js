@@ -51,6 +51,15 @@ describe('simularDia', () => {
     const r0 = simularDia([vieja], 3, { ...v, probCierre: 0 }, mulberry32(3))
     expect(r0[0].estado).toBe('Rechazada')
   })
+  it('C1 por oferta: defecto ± 10, entre 1 y 100', () => {
+    const r = simularDia([], 1, { ...VARIABLES_DEFECTO, visitasDia: 30 }, mulberry32(11))
+    for (const o of r) {
+      expect(o.margen).toBeGreaterThanOrEqual(Math.max(1, VARIABLES_DEFECTO.margen - 10))
+      expect(o.margen).toBeLessThanOrEqual(Math.min(100, VARIABLES_DEFECTO.margen + 10))
+    }
+    const bajo = simularDia([], 1, { ...VARIABLES_DEFECTO, visitasDia: 30, margen: 1 }, mulberry32(5))
+    expect(bajo.every((o) => o.margen >= 1)).toBe(true)
+  })
   it('es inmutable', () => {
     const entrada = [{ id: 1, dia: 1, estado: 'Enviada', items: [], horas: 0 }]
     const copia = JSON.parse(JSON.stringify(entrada))

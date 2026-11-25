@@ -26,11 +26,22 @@ export function useSimulacion({ onTick, velocidad, diaMax = 30, diaInicial = 0 }
     if (diaRef.current < diaMax) setCorriendo(true)
   }, [diaMax])
   const pausar = useCallback(() => setCorriendo(false), [])
+  // Avance manual: n días de golpe, con la simulación detenida.
+  const avanzar = useCallback(
+    (n = 1) => {
+      for (let i = 0; i < n && diaRef.current < diaMax; i++) {
+        diaRef.current += 1
+        onTickRef.current?.(diaRef.current)
+      }
+      setDia(diaRef.current)
+    },
+    [diaMax],
+  )
   const reiniciar = useCallback(() => {
     diaRef.current = 0
     setDia(0)
     setCorriendo(false)
   }, [])
 
-  return { dia, corriendo, iniciar, pausar, reiniciar }
+  return { dia, corriendo, iniciar, pausar, reiniciar, avanzar }
 }

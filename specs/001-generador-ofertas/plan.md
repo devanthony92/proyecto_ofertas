@@ -82,7 +82,7 @@ ofertas        = n
 valorOfertado  = Σ total
 valorGanado    = Σ total (Aceptada)
 tasaCierre     = aceptadas / (aceptadas + rechazadas)   → 0 si denominador 0
-ticketPromedio = valorOfertado / n                       → 0 si n = 0
+c1Promedio     = Σ margen / n                            → 0 si n = 0
 margenGanado   = Σ margenValor (Aceptada)
 horasVendidas  = Σ horas (Aceptada)
 ```
@@ -95,6 +95,7 @@ horasVendidas  = Σ horas (Aceptada)
    - tipo: `rng() < pctInstalacion` → Instalación, si no Reparación.
    - Instalación: 1 equipo + 3–5 materiales, 40–120 h.
    - Reparación: 1–3 repuestos distintos (cantidad 1–2), 4–24 h.
+   - C1 (margen) de cada oferta: C1 por defecto ± 10 puntos, entre 1 y 100.
    - Calibración (Monte Carlo, 600 meses): con visitas 2/día, cierre 35 %, instalaciones 1 %, mediana del valor ganado ≈ $ 249 M; la mitad de los meses entre $ 207 y 312 M.
    - cliente de una lista ficticia de nombres de edificios.
 

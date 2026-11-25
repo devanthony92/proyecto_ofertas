@@ -1,6 +1,6 @@
-import { Play, Pause, RotateCcw } from 'lucide-react'
+import { Play, Pause, RotateCcw, StepForward, FastForward } from 'lucide-react'
 
-export default function Controles({ dia, diaMax, corriendo, onIniciar, onPausa, onReinicio }) {
+export default function Controles({ dia, diaMax, corriendo, onIniciar, onPausa, onReinicio, onAvanzar }) {
   const terminada = dia >= diaMax
   const pausada = !corriendo && dia > 0 && !terminada
   const estado = corriendo ? 'En curso' : terminada ? 'Finalizada' : pausada ? 'En pausa' : 'Detenida'
@@ -37,6 +37,18 @@ export default function Controles({ dia, diaMax, corriendo, onIniciar, onPausa, 
             <RotateCcw size={20} aria-hidden="true" />
           </span>
           Reinicio
+        </button>
+        <button type="button" className="pulsador" onClick={() => onAvanzar(1)} disabled={corriendo || terminada} title="Avanzar un día (con la simulación detenida)">
+          <span>
+            <StepForward size={20} aria-hidden="true" />
+          </span>
+          +1 día
+        </button>
+        <button type="button" className="pulsador" onClick={() => onAvanzar(7)} disabled={corriendo || terminada} title="Avanzar siete días (con la simulación detenida)">
+          <span>
+            <FastForward size={20} aria-hidden="true" />
+          </span>
+          +7 días
         </button>
       </div>
     </div>

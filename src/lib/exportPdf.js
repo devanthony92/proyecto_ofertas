@@ -143,7 +143,7 @@ export function construirPdfReporte(ofertas, k, conclusiones = []) {
     ['Valor ofertado', formatoCOP(k.valorOfertado)],
     ['Valor ganado', formatoCOP(k.valorGanado)],
     ['Tasa de cierre', `${Math.round((k.tasaCierre || 0) * 100)}%`],
-    ['Ticket promedio', formatoCOP(k.ticketPromedio)],
+    ['C1 promedio', `${k.c1Promedio.toLocaleString('es-CO', { maximumFractionDigits: 1 })} %`],
     ['Margen ganado', formatoCOP(k.margenGanado)],
     ['Horas vendidas', String(k.horasVendidas)],
   ]

@@ -40,3 +40,6 @@ Marcar `[x]` al terminar. Una tarea = un commit pequeño.
 - [x] T25 Conclusión de meta de facturación (reemplaza la de reparaciones)
 - [x] T26 Formulario de nueva oferta en modal centrado (antes panel lateral)
 - [x] T27 Línea roja punteada de meta mensual en la gráfica acumulada
+- [x] T28 KPI C1 promedio (reemplaza ticket promedio) y C1 editable por oferta
+- [x] T29 Formulario renombrado a "Nuevo requerimiento"
+- [x] T30 Botones +1 día y +7 días para avance manual

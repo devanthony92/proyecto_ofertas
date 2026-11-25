@@ -71,7 +71,8 @@ export function simularDia(ofertas, dia, variables, rng = Math.random) {
       items,
       horas: instalacion ? randInt(40, 120) : randInt(4, 24),
       tarifaHora: variables.tarifaHora,
-      margen: variables.margen,
+      // C1 varía por oferta según condiciones especiales: ±10 puntos sobre el defecto, entre 1 y 100
+      margen: Math.min(100, Math.max(1, variables.margen + randInt(-10, 10))),
       iva: variables.iva,
       estado: 'Enviada',
     })

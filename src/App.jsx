@@ -85,6 +85,7 @@ export default function App() {
           onIniciar: sim.iniciar,
           onPausa: sim.pausar,
           onReinicio: reiniciar,
+          onAvanzar: sim.avanzar,
         }}
       />
       <main className="mx-auto max-w-[1440px] space-y-4 px-4 py-4 sm:px-6 sm:py-6">

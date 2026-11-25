@@ -105,7 +105,7 @@ export default function TablaOfertas({ ofertas, onPdf, onExcel, onReporte }) {
           <p className="p-6 text-center text-sm text-acero-600">
             {ofertas.length
               ? 'Ninguna oferta coincide con los filtros.'
-              : 'Aún no hay ofertas. Inicia la simulación o crea una con "Nueva oferta".'}
+              : 'Aún no hay ofertas. Inicia la simulación o crea una con "Nuevo requerimiento".'}
           </p>
         )}
       </div>

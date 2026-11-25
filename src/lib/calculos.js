@@ -34,7 +34,7 @@ export function kpis(ofertas) {
     valorOfertado: 0,
     valorGanado: 0,
     tasaCierre: 0,
-    ticketPromedio: 0,
+    c1Promedio: 0, // promedio simple del margen C1 (%) de las ofertas
     margenGanado: 0,
     horasVendidas: 0,
     aceptadas: 0,
@@ -46,6 +46,7 @@ export function kpis(ofertas) {
   for (const o of ofertas) {
     const t = totalesOferta(o)
     r.valorOfertado += t.total
+    r.c1Promedio += Number(o.margen) || 0
     r.costoManoObra += t.manoObra
     r.costoTotal += t.costo
     if (o.estado === 'Aceptada') {
@@ -61,7 +62,7 @@ export function kpis(ofertas) {
   }
   const decididas = r.aceptadas + r.rechazadas
   r.tasaCierre = decididas ? r.aceptadas / decididas : 0
-  r.ticketPromedio = r.ofertas ? r.valorOfertado / r.ofertas : 0
+  r.c1Promedio = r.ofertas ? r.c1Promedio / r.ofertas : 0
   return r
 }
 

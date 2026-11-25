@@ -4,7 +4,7 @@ import { VARIABLES_DEFECTO } from '../lib/calculos'
 
 const CAMPOS = [
   ['tarifaHora', 'Tarifa hora técnico', 'COP', false],
-  ['margen', 'Margen', '%', true],
+  ['margen', 'C1 por defecto (margen)', '%', true],
   ['iva', 'IVA', '%', true],
   ['visitasDia', 'Visitas por día', 'visitas', false],
   ['probCierre', 'Probabilidad de cierre', '%', true],
@@ -30,6 +30,7 @@ export default function PanelVariables({ abierto, variables, onChange, onClose }
     if (!Number.isFinite(v)) return
     v = Math.max(0, v)
     if (pct) v = Math.min(100, v)
+    if (k === 'margen') v = Math.max(1, v)
     if (k === 'velocidad') v = Math.max(0.1, v)
     onChange({ ...variables, [k]: v })
   }

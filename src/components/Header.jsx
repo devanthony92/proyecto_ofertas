@@ -27,7 +27,7 @@ export default function Header({ controles, onNueva, onConfig }) {
             onClick={onNueva}
           >
             <Plus size={18} aria-hidden="true" />
-            Nueva oferta
+            Nuevo requerimiento
           </button>
         </div>
       </div>

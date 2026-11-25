@@ -71,7 +71,7 @@ export function construirExcel(ofertas, k) {
       ['Valor ofertado', k.valorOfertado],
       ['Valor ganado', k.valorGanado],
       ['Tasa de cierre', k.tasaCierre],
-      ['Ticket promedio', k.ticketPromedio],
+      ['C1 promedio (%)', Math.round(k.c1Promedio * 10) / 10],
       ['Margen ganado', k.margenGanado],
       ['Horas vendidas', k.horasVendidas],
     ],

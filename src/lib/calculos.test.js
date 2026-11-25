@@ -45,7 +45,7 @@ describe('kpis', () => {
     expect(k.valorOfertado).toBeCloseTo(3 * 1487500)
     expect(k.valorGanado).toBeCloseTo(1487500)
     expect(k.tasaCierre).toBe(0.5)
-    expect(k.ticketPromedio).toBeCloseTo(1487500)
+    expect(k.c1Promedio).toBeCloseTo(25)
     expect(k.margenGanado).toBeCloseTo(250000)
     expect(k.horasVendidas).toBe(10)
     expect([k.aceptadas, k.rechazadas, k.enviadas]).toEqual([1, 1, 1])

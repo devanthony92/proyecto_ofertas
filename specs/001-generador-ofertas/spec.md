@@ -23,7 +23,7 @@ Empresa ficticia: **Elevia Ofertas**. No se usan nombres ni logos de empresas re
 
 ## Historias de usuario
 
-### HU-1 Crear una oferta
+### HU-1 Crear una oferta (botón **Nuevo requerimiento**)
 
 Como técnico quiero registrar la información de la visita para generar una oferta.
 
@@ -32,6 +32,7 @@ Como técnico quiero registrar la información de la visita para generar una ofe
 - [ ] Puedo agregar ítems desde un catálogo (equipos, materiales, repuestos) o escribir un ítem libre.
 - [ ] Puedo editar cantidad y precio unitario de cada ítem, y eliminarlo.
 - [ ] Puedo ingresar horas estimadas de mano de obra; la tarifa por hora viene de las variables globales.
+- [ ] Puedo ajustar el **C1** (margen de ganancia) de esa oferta entre 1 y 100 %; arranca en el C1 por defecto de Configuración.
 - [ ] Subtotal, margen, IVA y total se recalculan al instante al cambiar cualquier valor.
 - [ ] No puedo guardar una oferta sin nombre de cliente y al menos un ítem o una hora de mano de obra.
 - [ ] Al guardar, la oferta entra a la tabla con estado **Enviada**.
@@ -54,6 +55,7 @@ Como jefe comercial quiero simular el flujo de ofertas de un mes para ver cómo 
 - [ ] Botón **Iniciar**: avanza un día simulado por cada intervalo de tiempo.
 - [ ] Botón **Pausa**: detiene el avance sin borrar datos; Iniciar continúa desde el mismo día.
 - [ ] Botón **Reinicio**: vuelve al día 0 y borra las ofertas simuladas.
+- [ ] Botones **+1 día** y **+7 días**: avanzan la simulación a mano (con la simulación detenida), para explicar el sistema creando requerimientos entre días.
 - [ ] Cada día se generan ofertas aleatorias (cantidad según "visitas por día"), con ítems del catálogo y tipo según "% instalaciones".
 - [ ] Las ofertas abiertas se resuelven como **Aceptada** o **Rechazada** según "probabilidad de cierre".
 - [ ] La simulación se detiene sola al llegar al día 30.
@@ -68,7 +70,7 @@ Como jefe comercial quiero cambiar los supuestos del negocio y ver el efecto al 
 | Variable | Defecto |
 |---|---|
 | Tarifa hora técnico (COP) | 95.000 |
-| Margen (%) | 25 |
+| C1 por defecto: margen (%) | 25 |
 | IVA (%) | 19 |
 | Visitas por día | 2 |
 | Probabilidad de cierre (%) | 35 |
@@ -91,7 +93,7 @@ Como jefe comercial quiero cambiar los supuestos del negocio y ver el efecto al 
 - Valor total ofertado
 - Valor ganado (ofertas aceptadas)
 - Tasa de cierre = aceptadas / (aceptadas + rechazadas)
-- Ticket promedio = valor ofertado / ofertas
+- C1 promedio = promedio simple del C1 (%) de las ofertas; cada oferta puede tener su propio C1 (1–100 %)
 - Margen bruto ganado (COP)
 - Horas de mano de obra vendidas
 

@@ -13,9 +13,9 @@ Después de una visita técnica, el técnico tiene en la mano una lista de equip
 | Dashboard interactivo | Una sola pantalla con banda de control, KPIs, gráficas, conclusiones, tabla y panel de variables. Un formulario lateral permite crear ofertas sin salir. |
 | Datos y variables editables | Panel "Variables" con tarifa por hora, margen, IVA, visitas por día, probabilidad de cierre, % de instalaciones y velocidad. Valida que no haya negativos y que los porcentajes estén entre 0 y 100. Incluye botón para restaurar valores. |
 | Cálculos automáticos | Subtotal, margen, IVA y total se recalculan al instante al cambiar cualquier ítem, cantidad, precio, horas o variable. |
-| KPIs en tiempo real | Fila de siete indicadores (ofertas, valor ofertado, valor ganado, tasa de cierre, ticket promedio, margen ganado y horas vendidas) que se actualizan en cada día simulado y al guardar una oferta. |
+| KPIs en tiempo real | Fila de siete indicadores (ofertas, valor ofertado, valor ganado, tasa de cierre, C1 promedio (margen), margen ganado y horas vendidas) que se actualizan en cada día simulado y al guardar una oferta. |
 | Gráficas dinámicas | Chart.js: línea de valor ofertado frente a ganado acumulado por día, dona por tipo de trabajo y barras con el top 5 de ítems más ofertados. |
-| Iniciar / pausa / reinicio | Un hook de simulación usa un intervalo de "velocidad × 1 s" por día. Pausa conserva los datos, Reinicio vuelve al día 0 y borra solo las ofertas simuladas. La simulación se detiene sola en el día 30. |
+| Iniciar / pausa / reinicio | Un hook de simulación usa un intervalo de "velocidad × 1 s" por día. Pausa conserva los datos, Reinicio vuelve al día 0 y borra solo las ofertas simuladas. La simulación se detiene sola en el día 30. Los botones +1 día y +7 días avanzan a mano, para explicar el sistema creando requerimientos entre días. |
 | Exportación PDF y Excel | Oferta en PDF desde el formulario y desde cada fila (jsPDF y jspdf-autotable). Reporte del mes en PDF y libro Excel con hojas Ofertas, Ítems y KPIs (ExcelJS). |
 | Tablas automáticas | La tabla de ofertas se construye desde el estado: filtros por estado y tipo, más recientes primero. |
 | Conclusiones automáticas | Reglas sobre tasa de cierre, peso de reparaciones y carga de mano de obra. Siempre muestra al menos un mensaje. |
@@ -42,7 +42,7 @@ ofertas        = n
 valorOfertado  = Σ total
 valorGanado    = Σ total (Aceptada)
 tasaCierre     = aceptadas / (aceptadas + rechazadas)   → 0 si el denominador es 0
-ticketPromedio = valorOfertado / n                       → 0 si n = 0
+c1Promedio     = Σ margen C1 / n                         → 0 si n = 0
 margenGanado   = Σ margenValor (Aceptada)
 horasVendidas  = Σ horas (Aceptada)
 ```

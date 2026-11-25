@@ -7,7 +7,7 @@ export default function Kpis({ k }) {
     ['Valor ofertado', formatoCOP(k.valorOfertado)],
     ['Valor ganado', formatoCOP(k.valorGanado)],
     ['Tasa de cierre', `${Math.round(num(k.tasaCierre) * 100)} %`],
-    ['Ticket promedio', formatoCOP(k.ticketPromedio)],
+    ['C1 promedio', `${num(k.c1Promedio).toLocaleString('es-CO', { maximumFractionDigits: 1 })} %`],
     ['Margen bruto ganado', formatoCOP(k.margenGanado)],
     ['Horas vendidas', `${num(k.horasVendidas)} h`],
   ]

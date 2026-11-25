@@ -21,7 +21,7 @@ function Campo({ id, label, error, children }) {
 }
 
 export default function FormOferta({ variables, dia, siguienteId, onGuardar, onClose }) {
-  const [f, setF] = useState(vacio)
+  const [f, setF] = useState(() => ({ ...vacio(), c1: variables.margen }))
   const [errores, setErrores] = useState({})
   const [sel, setSel] = useState('')
 
@@ -58,7 +58,7 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
       items: f.items.map(({ descripcion, cantidad, precio }) => ({ descripcion: descripcion.trim(), cantidad: Number(cantidad) || 0, precio: Number(precio) || 0 })),
       horas: Number(f.horas) || 0,
       tarifaHora: variables.tarifaHora,
-      margen: variables.margen,
+      margen: Number(f.c1) || 0,
       iva: variables.iva,
     }),
     [f, variables],
@@ -73,6 +73,7 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
     if (f.items.some((i) => !i.descripcion.trim())) e.items = 'Todos los ítems necesitan descripción.'
     else if (f.items.some((i) => !(Number(i.cantidad) > 0) || Number(i.precio) < 0)) e.items = 'Revisa cantidades (mayores a 0) y precios (no negativos).'
     if (Number(f.horas) < 0) e.horas = 'Las horas no pueden ser negativas.'
+    if (!(Number(f.c1) >= 1 && Number(f.c1) <= 100)) e.c1 = 'C1 debe estar entre 1 y 100 %.'
     setErrores(e)
     return Object.keys(e).length === 0
   }
@@ -96,7 +97,7 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
       <div className="absolute inset-0 bg-acero-900/50" onClick={onClose} aria-hidden="true" />
       <aside role="dialog" aria-modal="true" aria-labelledby="h-form" className="relative flex h-full w-full flex-col bg-acero-50 shadow-2xl sm:h-auto sm:max-h-[90vh] sm:max-w-3xl sm:rounded-[var(--radius-placa)] sm:border sm:border-acero-300">
         <div className="flex items-center justify-between border-b border-acero-300 px-5 py-4">
-          <h2 id="h-form" className="font-display text-xl font-semibold">Nueva oferta</h2>
+          <h2 id="h-form" className="font-display text-xl font-semibold">Nuevo requerimiento</h2>
           <button type="button" className="btn btn-sm" onClick={onClose} aria-label="Cerrar formulario"><X size={18} aria-hidden="true" /></button>
         </div>
 
@@ -190,9 +191,12 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
             )}
           </fieldset>
 
-          <div>
+          <div className="grid gap-3 sm:grid-cols-2">
             <Campo id="o-horas" label={`Horas de mano de obra (tarifa ${formatoCOP(variables.tarifaHora)} por hora)`} error={errores.horas}>
               <input id="o-horas" type="number" min="0" className="campo tabular-nums" aria-invalid={!!errores.horas} value={f.horas} onChange={(e) => set('horas', e.target.value)} />
+            </Campo>
+            <Campo id="o-c1" label="C1: margen de ganancia (%)" error={errores.c1}>
+              <input id="o-c1" type="number" min="1" max="100" className="campo tabular-nums" aria-invalid={!!errores.c1} value={f.c1} onChange={(e) => set('c1', e.target.value)} />
             </Campo>
           </div>
 
@@ -200,7 +204,7 @@ export default function FormOferta({ variables, dia, siguienteId, onGuardar, onC
             {[
               ['Ítems', t.costoItems],
               ['Mano de obra', t.manoObra],
-              [`Margen (${variables.margen} %)`, t.margenValor],
+              [`Margen C1 (${Number(f.c1) || 0} %)`, t.margenValor],
               ['Subtotal', t.subtotal],
               [`IVA (${variables.iva} %)`, t.ivaValor],
             ].map(([k, v]) => (
