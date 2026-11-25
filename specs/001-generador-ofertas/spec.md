@@ -102,6 +102,7 @@ Como jefe comercial quiero cambiar los supuestos del negocio y ver el efecto al 
 ### HU-6 Ver gráficas dinámicas
 
 - [ ] Línea: valor ofertado vs valor ganado acumulado por día.
+- [ ] La línea muestra la meta mensual (meta mínima de Configuración) como línea roja punteada.
 - [ ] Dona: valor por tipo de trabajo (Instalación vs Reparación).
 - [ ] Barras: top 5 ítems más ofertados.
 - [ ] Las gráficas se actualizan con la simulación.

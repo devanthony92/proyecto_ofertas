@@ -91,7 +91,7 @@ export default function App() {
         <Kpis k={k} />
         <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
           <div className="min-w-0 space-y-4">
-            <Graficas serie={serie} porTipo={porTipo} top={top} />
+            <Graficas serie={serie} porTipo={porTipo} top={top} meta={variables.metaMin * 1e6} />
             <TablaOfertas
               ofertas={ofertas}
               onPdf={pdfOferta}

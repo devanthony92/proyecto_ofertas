@@ -39,3 +39,4 @@ Marcar `[x]` al terminar. Una tarea = un commit pequeño.
 - [x] T24 Variables en modal **Configuración** (fuera del dashboard)
 - [x] T25 Conclusión de meta de facturación (reemplaza la de reparaciones)
 - [x] T26 Formulario de nueva oferta en modal centrado (antes panel lateral)
+- [x] T27 Línea roja punteada de meta mensual en la gráfica acumulada

@@ -38,7 +38,7 @@ function Panel({ titulo, vacio, className = '', children }) {
   )
 }
 
-export default function Graficas({ serie, porTipo, top }) {
+export default function Graficas({ serie, porTipo, top, meta = 0 }) {
   const opcionesLinea = {
     responsive: true,
     maintainAspectRatio: false,
@@ -57,6 +57,10 @@ export default function Graficas({ serie, porTipo, top }) {
     datasets: [
       { label: 'Ofertado', data: serie.map((s) => s.ofertado), borderColor: '#2f6496', backgroundColor: '#2f6496', tension: 0.25, pointRadius: 2 },
       { label: 'Ganado', data: serie.map((s) => s.ganado), borderColor: '#1d7448', backgroundColor: '#1d7448', tension: 0.25, pointRadius: 2 },
+      // meta mensual: línea horizontal punteada (meta mínima de Configuración)
+      ...(meta > 0
+        ? [{ label: `Meta del mes (${compacto(meta)})`, data: serie.map(() => meta), borderColor: '#b0291f', backgroundColor: '#b0291f', borderDash: [6, 4], borderWidth: 2, pointRadius: 0, pointHoverRadius: 0 }]
+        : []),
     ],
   }
   const totalTipo = porTipo['Instalación'] + porTipo['Reparación']
