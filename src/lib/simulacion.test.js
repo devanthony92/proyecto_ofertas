@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { simularDia } from './simulacion'
+import { simularDia, etapaOferta } from './simulacion'
 import { VARIABLES_DEFECTO } from './calculos'
 
 function mulberry32(a) {
@@ -66,5 +66,25 @@ describe('simularDia', () => {
     const r = simularDia(entrada, 5, VARIABLES_DEFECTO, mulberry32(9))
     expect(entrada).toEqual(copia)
     expect(r).not.toBe(entrada)
+  })
+})
+
+describe('etapaOferta', () => {
+  it('Pendiente el día de envío, En negociación después, Ganada / Perdida al decidirse', () => {
+    const o = { dia: 4, estado: 'Enviada' }
+    expect(etapaOferta(o, 4)).toBe('Pendiente')
+    expect(etapaOferta(o, 5)).toBe('En negociación')
+    expect(etapaOferta({ ...o, estado: 'Aceptada' }, 6)).toBe('Ganada')
+    expect(etapaOferta({ ...o, estado: 'Rechazada' }, 6)).toBe('Perdida')
+  })
+  it('una oferta creada en la simulación pasa por Pendiente y En negociación antes de decidirse', () => {
+    const v = { ...VARIABLES_DEFECTO, visitasDia: 1, probCierre: 50 }
+    let ofs = simularDia([], 1, v, mulberry32(2))
+    const id = ofs[0].id
+    expect(etapaOferta(ofs[0], 1)).toBe('Pendiente')
+    ofs = simularDia(ofs, 2, v, mulberry32(2))
+    expect(etapaOferta(ofs.find((o) => o.id === id), 2)).toBe('En negociación')
+    ofs = simularDia(ofs, 3, v, mulberry32(2))
+    expect(['Ganada', 'Perdida']).toContain(etapaOferta(ofs.find((o) => o.id === id), 3))
   })
 })

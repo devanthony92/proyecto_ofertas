@@ -79,3 +79,13 @@ export function simularDia(ofertas, dia, variables, rng = Math.random) {
   }
   return resultado
 }
+
+// Etapa comercial de una oferta en el día `dia` de la simulación (regla, no estado guardado).
+// Una oferta Enviada se decide a los 2 días (ver simularDia); mientras tanto:
+//  - el día en que se envía queda "Pendiente" (el cliente aún no responde),
+//  - desde el día siguiente queda "En negociación" (el cliente la está revisando).
+export function etapaOferta(oferta, dia) {
+  if (oferta.estado === 'Aceptada') return 'Ganada'
+  if (oferta.estado === 'Rechazada') return 'Perdida'
+  return dia - oferta.dia >= 1 ? 'En negociación' : 'Pendiente'
+}
